@@ -1,9 +1,8 @@
 {
-  "name": "gatsby-source-filesystem",
-  "description":
-    "Gatsby plugin which parses files within a directory for further parsing by other plugins",
-  "version": "1.5.15",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "name": "gatsby-source-s3",
+  "description": "WIP",
+  "version": "0.0.1",
+  "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -40,7 +39,9 @@
     "eslint-plugin-prettier": "^2.5.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "prettier": "^1.10.2",
+    "prettier-eslint": "^8.8.1"
   },
   "keywords": ["gatsby", "gatsby-plugin"],
   "license": "MIT",
