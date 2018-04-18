@@ -4,7 +4,11 @@
     "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
   "version": "0.0.2",
   "author": "Jesse Stuart <hi@jessestuart.com>",
-  "repository": "https://github.com/jessestuart/gatsby-source-s3-image",
+  "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
+  },
   "dependencies": {
     "aws-sdk": "^2.224.1",
     "babel-cli": "^6.26.0",
