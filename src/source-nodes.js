@@ -1,5 +1,5 @@
 // =========================
-// Third party dependencies.
+// Third-party dependencies.
 // =========================
 const _ = require('lodash')
 const AWS = require('aws-sdk')
@@ -16,7 +16,7 @@ const { createRemoteFileNode } = require('gatsby-source-filesystem')
 const S3 = new AWS.S3({ apiVersion: '2006-03-01' })
 
 // =========================
-// Plugin-specific contants.
+// Plugin-specific constants.
 // =========================
 const S3SourceGatsbyNodeType = 'S3ImageAsset'
 
@@ -53,6 +53,14 @@ const constructS3UrlForAsset = ({
   }
 }
 
+const isImage = entity => {
+  // S3 API doesn't expose Content-Type, and we don't want to make unnecessary
+  // HTTP requests for non-images... so we'll just infer based on the suffix
+  // of the Key.
+  const extension = _.last(_.split(entity.Key, '.'))
+  return _.includes(['jpeg', 'jpg', 'png', 'webp', 'gif'], extension)
+}
+
 exports.sourceNodes = async (
   { boundActionCreators, getNode, hasNodeChanged, store, cache },
   { bucketName, domain, protocol }: SourceS3Options,
@@ -70,6 +78,9 @@ exports.sourceNodes = async (
 
   await Promise.all(
     s3Entities.map(async entity => {
+      if (!isImage(entity)) {
+        return
+      }
       const s3Url = constructS3UrlForAsset({
         bucketName,
         domain,
@@ -88,9 +99,10 @@ exports.sourceNodes = async (
       }
 
       const fileNode = await createS3RemoteFileNode(entityData)
-      if (fileNode) {
-        entityData.localFile___NODE = fileNode.id
+      if (!fileNode) {
+        return
       }
+      entityData.localFile___NODE = fileNode.id
       await createS3ImageAssetNode({
         ...entityData,
         fileNode,

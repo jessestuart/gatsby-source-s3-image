@@ -1,4 +1,7 @@
 /* @flow */
+import type { ExifData } from './types/exif-data'
+import type { S3ImageAssetNode } from './types/s3-image-asset-node'
+
 const Promise = require('bluebird')
 const fs = require('fs')
 const {
@@ -11,81 +14,8 @@ const exif = require('exif-parser')
 const DateTime = require('luxon').DateTime
 const _ = require('lodash')
 
-/**
- * ExifData persists the exif data parsed from an image binary
- * within Gatsby's GraphQL data infra. The best way to access
- * these fields is directly via the S3ImageAsset node -- e.g.,
- * @example
- * ```graphql
- * {
- *   allS3ImageAsset {
- *     edges {
- *       node {
- *         id
- *         EXIF {
- *           DateCreatedISO
- *           FNumber
- *           // ...etc
- *         }
- *       }
- *     }
- *   }
- * }
- * ```
- *
- * Note that you can also obtain direct access to the `ImageSharp`
- * node as a child relation:
- * @example
- * ```graphql
- * {
- *   allS3ImageAsset {
- *     edges {
- *       node {
- *         id
- *         EXIF {
- *           DateCreatedISO
- *           FNumber
- *           // ...etc
- *         }
- *       }
- *     }
- *   }
- * }
- * ```
- */
-type ExifData = {
-  DateCreatedISO: String,
-  DateTimeOriginal: Number,
-  ExposureTime: Number,
-  FNumber: Number,
-  FocalLength: Number,
-  ISO: Number,
-  LensModel: String,
-  Model: String,
-  ShutterSpeedValue: Number,
-}
-
-/**
- * S3ImageAssetNode is a minimal wrapper composing the default Node
- * fields with those obtained from S3 -- initially just `Key`
- * and `ETag` (object digest), but the full map of Exif
- * properties are injected during the `extend-node-type` step.
- */
-type S3ImageAssetNode = {
-  id: String,
-  absolutePath: String,
-  ETag: String,
-  Key: String,
-  EXIF: ?ExifData,
-  internal: {
-    content: String,
-    contentDigest: String,
-    mediaType: String,
-    type: String,
-  },
-}
-
 const resolveExifData = (image: S3ImageAssetNode): ExifData => {
+  // $FlowFixMe
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
