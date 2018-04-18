@@ -1,2 +1,7 @@
 [ver:1,total:60]
 .git/COMMIT_EDITMSG:60,1524052800:60,r
+
+[ver:1,total:660]
+package.json:360,1524052800:360,m
+.gitignore:270,1524052800:270,m
+types/exif-data.js:30,1524052800:30,r
