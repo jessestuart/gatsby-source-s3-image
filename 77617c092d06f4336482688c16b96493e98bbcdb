@@ -1,2 +1,14 @@
 [ver:1,total:120]
 package.json:120,1524070800:120,m
+
+[ver:1,total:180]
+.circleci/config.yml:150,1524070800:150,m
+package.json:30,1524070800:30,m
+
+[ver:1,total:60]
+.git/COMMIT_EDITMSG:60,1524070800:60,r
+
+[ver:1,total:1320]
+package.json:780,1524070800:780,m
+README.md:360,1524070800:360,m
+.circleci/config.yml:180,1524070800:180,m
