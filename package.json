@@ -1,8 +1,7 @@
 {
   "name": "gatsby-source-s3-image",
-  "description":
-    "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
-  "version": "0.0.2",
+  "description": "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
+  "version": "0.0.3",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "repository": {
@@ -54,8 +53,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir . --ignore __tests__",
-    "lint":
-      "eslint --format 'node_modules/eslint-friendly-formatter' --quiet --ext .js ./src",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --quiet --ext .js ./src",
     "prepublish": "yarn build",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
