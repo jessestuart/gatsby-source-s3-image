@@ -1,4 +1,7 @@
-## gatsby-source-s3-img
+## gatsby-source-s3-image
+
+[![CircleCI][circleci-badge]][circleci-link]
+[![npm][npm-badge]][npm-link]
 
 GatsbyJS Source plugin for **converting images from an S3-compliant API[1] into
 GatsbyJS nodes** (with full support for hooking into all of the powerful features
@@ -173,3 +176,7 @@ const createPages = ({ graphql, boundActionCreators }) => {
 }
 ```
 
+[circleci-badge]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image.svg?style=shield
+[circleci-link]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image
+[npm-badge]: https://img.shields.io/npm/v/gatsby-source-s3-image.svg
+[npm-link]: https://www.npmjs.com/package/gatsby-source-s3-image
