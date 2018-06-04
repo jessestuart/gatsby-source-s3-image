@@ -2,6 +2,7 @@
 
 [![CircleCI][circleci-badge]][circleci-link]
 [![npm][npm-badge]][npm-link]
+[![Maintainability][codeclimate]][codeclimate 2]
 
 GatsbyJS Source plugin for **converting images from an S3-compliant API[1] into
 GatsbyJS nodes** (with full support for hooking into all of the powerful features
@@ -176,6 +177,8 @@ const createPages = ({ graphql, boundActionCreators }) => {
 }
 ```
 
+[codeclimate]: https://api.codeclimate.com/v1/badges/4488634e45e84d3cbdbe/maintainability
+[codeclimate 2]: https://codeclimate.com/github/jessestuart/gatsby-source-s3-image/maintainability
 [circleci-badge]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image.svg?style=shield
 [circleci-link]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image
 [npm-badge]: https://img.shields.io/npm/v/gatsby-source-s3-image.svg
