@@ -1,0 +1,5 @@
+{
+  "extends": [":base", ":automergeLinters"],
+  "labels": ["renovate"],
+  "prHourlyLimit": 0
+}
