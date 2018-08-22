@@ -9,7 +9,7 @@
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
   },
   "dependencies": {
-    "aws-sdk": "2.297.0",
+    "aws-sdk": "2.298.0",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.6",
     "babel-jest": "22.4.4",
