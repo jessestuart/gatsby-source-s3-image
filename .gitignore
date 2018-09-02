@@ -1,3 +1,4 @@
 /*.js
 /types/*.js
 yarn.lock
+!babel.config.js

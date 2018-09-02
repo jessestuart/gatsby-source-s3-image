@@ -22,34 +22,29 @@ function preset(context, options = {}) {
     },
   }
 
+  context.cache(true)
+
   return {
     presets: [
+      r('@babel/preset-flow'),
       [
-        r('babel-preset-env'),
+        r('@babel/preset-env'),
         Object.assign(
           {
             loose: true,
             debug: !!debug,
-            useBuiltIns: true,
+            useBuiltIns: 'usage',
             modules: 'commonjs',
           },
           browser ? browserConfig : nodeConfig
         ),
       ],
-      r('babel-preset-react'),
-      r('babel-preset-flow'),
+      r('@babel/preset-react'),
     ],
     plugins: [
-      r('babel-plugin-transform-object-rest-spread'),
-      [
-        r('babel-plugin-transform-runtime'),
-        {
-          // we are only polyfilling the node environment
-          // so we need to enable the runtime replacements for the browser preset
-          polyfill: !!browser,
-        },
-      ],
-      r(`babel-plugin-transform-flow-strip-types`),
+      r('@babel/plugin-transform-flow-strip-types'),
+      r('@babel/plugin-proposal-object-rest-spread'),
+      r('@babel/plugin-transform-runtime'),
     ],
   }
 }
