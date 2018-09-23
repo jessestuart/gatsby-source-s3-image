@@ -15,6 +15,14 @@ workflows:
       - lint:
           requires:
             - install_dependencies
+      - release:
+          requires:
+            - build
+            - lint
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
 # ====================
 # SHARED JOBS POINTERS
@@ -43,7 +51,7 @@ jobs:
 
   install_dependencies:
     docker:
-      - image: circleci/node:9
+      - image: circleci/node:10
     steps:
       - checkout
       - *restore_cache
@@ -52,7 +60,7 @@ jobs:
 
   lint:
     docker:
-      - image: circleci/node:9
+      - image: circleci/node:10
     steps:
       - checkout
       - *restore_cache
@@ -62,7 +70,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:9
+      - image: circleci/node:10
     steps:
       - checkout
       - *restore_cache
@@ -70,3 +78,12 @@ jobs:
           name: Transpile sources.
           command: yarn build
       - *save_cache
+
+  release:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - *restore_cache
+      - *install_dependencies
+      - run: yarn semantic-release
