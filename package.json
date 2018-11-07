@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "aws-sdk": "2.350.0",
-    "bluebird": "3.5.2",
+    "bluebird": "3.5.3",
     "lodash": "4.17.11",
     "luxon": "1.5.0"
   },
