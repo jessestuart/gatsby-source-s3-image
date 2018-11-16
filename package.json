@@ -9,7 +9,7 @@
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
   },
   "dependencies": {
-    "aws-sdk": "2.357.0",
+    "aws-sdk": "2.358.0",
     "bluebird": "3.5.3",
     "lodash": "4.17.11",
     "luxon": "1.6.2"
