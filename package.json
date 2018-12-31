@@ -12,7 +12,7 @@
     "aws-sdk": "2.382.0",
     "bluebird": "3.5.3",
     "lodash": "4.17.11",
-    "luxon": "1.8.3"
+    "luxon": "1.9.0"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
