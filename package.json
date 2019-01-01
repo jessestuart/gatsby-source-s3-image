@@ -25,6 +25,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
+    "@semantic-release/git": "7.0.7",
     "babel-eslint": "10.0.1",
     "babel-jest": "23.6.0",
     "babel-plugin-add-module-exports": "0.3.3",
@@ -44,18 +45,19 @@
     "semantic-release": "15.13.2"
   },
   "keywords": [
-    "gatsbyjs",
+    "exif",
     "gatsby",
     "gatsby-plugin",
+    "gatsbyjs",
     "photography",
-    "s3",
-    "exif"
+    "s3"
   ],
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir . --ignore __tests__",
     "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --quiet --ext .js ./src",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
+    "semantic-release": "yarn build && semantic-release",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
   }
