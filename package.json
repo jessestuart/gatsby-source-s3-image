@@ -25,7 +25,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
-    "@semantic-release/git": "7.0.7",
+    "@semantic-release/git": "7.0.8",
     "babel-eslint": "10.0.1",
     "babel-jest": "23.6.0",
     "babel-plugin-add-module-exports": "1.0.0",
