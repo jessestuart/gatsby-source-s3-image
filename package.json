@@ -4,6 +4,7 @@
   "version": "0.2.78",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
