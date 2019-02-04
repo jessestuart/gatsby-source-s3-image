@@ -1,21 +1,19 @@
-/* @flow */
-import type { ExifData } from './types/exif-data'
-import type { S3ImageAssetNode } from './types/s3-image-asset-node'
+import { ExifData } from './types/exif-data'
+import { S3ImageAssetNode } from './types/s3-image-asset-node'
 
-const Promise = require('bluebird')
-const fs = require('fs')
-const {
+import Promise from 'bluebird'
+import fs from 'fs'
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
   GraphQLFloat,
-} = require('graphql')
-const exif = require('exif-parser')
-const DateTime = require('luxon').DateTime
-const _ = require('lodash')
+} from 'graphql'
+import exif from 'exif-parser'
+import { DateTime } from 'luxon'
+import _ from 'lodash'
 
-const resolveExifData = (image: S3ImageAssetNode): ExifData => {
-  // $FlowFixMe
+export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
@@ -35,13 +33,13 @@ const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   }
 }
 
-type ExtendNodeTypeOptions = {
+export interface ExtendNodeTypeOptions {
   type: {
-    name: String,
-  },
+    name: string
+  }
 }
 
-const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
+export const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
   if (type.name !== 'S3ImageAsset') {
     return {}
   }
@@ -64,6 +62,7 @@ const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
           ShutterSpeedValue: { type: GraphQLFloat },
         },
       }),
+
       resolve(image: S3ImageAssetNode) {
         return {
           ...type,
@@ -73,7 +72,3 @@ const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
     },
   })
 }
-
-exports.extendNodeType = extendNodeType
-
-exports.resolveExifData = resolveExifData

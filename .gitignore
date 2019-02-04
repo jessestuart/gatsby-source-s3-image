@@ -1,5 +1,6 @@
 !*.config.js
 /*.js
+/dist/
 /types/*.js
-node_modules
+/node_modules/
 yarn.lock
