@@ -2,6 +2,7 @@
 /*.js
 /dist/
 /node_modules/
+/types/
 yarn.lock
 **/*.d.ts
 **/*.map
