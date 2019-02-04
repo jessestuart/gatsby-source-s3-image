@@ -2,6 +2,8 @@
 logs
 *.log
 
+tags
+
 # Runtime data
 pids
 *.pid
@@ -19,3 +21,11 @@ src
 flow-typed
 decls
 examples
+
+!**/*.d.ts
+!**/*.map
+!types/
+
+/.circleci/
+/.git/
+/src/

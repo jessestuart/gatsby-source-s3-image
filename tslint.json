@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-standard",
+    "tslint-config-prettier"
+  ],
+  "plugins": ["tslint-plugin-prettier"],
+  "defaultSeverity": "error",
+  "linterOptions": {
+    "include": ["src/**/*.{ts,tsx}"],
+    "exclude": ["node_modules"]
+  },
+  "rules": {
+    "interface-name": false,
+    "no-use-before-declare": false,
+    "trailing-comma": [true, "es5"]
+  }
+}

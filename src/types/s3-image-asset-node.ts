@@ -1,5 +1,4 @@
-/* @flow */
-import type { ExifData } from './exif-data'
+import ExifData from './exif-data'
 
 /**
  * S3ImageAssetNode is a minimal wrapper composing the default Node
@@ -7,16 +6,16 @@ import type { ExifData } from './exif-data'
  * and `ETag` (object digest), but the full map of Exif
  * properties are injected during the `extend-node-type` step.
  */
-export type S3ImageAssetNode = {
-  id: String,
-  absolutePath: String,
-  ETag: String,
-  Key: String,
-  EXIF: ?ExifData,
+export default interface S3ImageAssetNode {
+  id: string
+  absolutePath: string
+  ETag: string
+  Key: string
+  EXIF: ExifData | null
   internal: {
-    content: String,
-    contentDigest: String,
-    mediaType: String,
-    type: String,
-  },
+    content: string
+    contentDigest: string
+    mediaType: string
+    type: string
+  }
 }

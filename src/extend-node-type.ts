@@ -1,21 +1,19 @@
-/* @flow */
-import type { ExifData } from './types/exif-data'
-import type { S3ImageAssetNode } from './types/s3-image-asset-node'
-
-const Promise = require('bluebird')
-const fs = require('fs')
-const {
+import Promise from 'bluebird'
+import exif from 'exif-parser'
+import fs from 'fs'
+import {
+  GraphQLFloat,
+  GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt,
-  GraphQLFloat,
-} = require('graphql')
-const exif = require('exif-parser')
-const DateTime = require('luxon').DateTime
-const _ = require('lodash')
+} from 'graphql'
+import _ from 'lodash'
+import { DateTime } from 'luxon'
 
-const resolveExifData = (image: S3ImageAssetNode): ExifData => {
-  // $FlowFixMe
+import { ExifData } from './types/exif-data'
+import { S3ImageAssetNode } from './types/s3-image-asset-node'
+
+export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
@@ -35,23 +33,23 @@ const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   }
 }
 
-type ExtendNodeTypeOptions = {
+export interface ExtendNodeTypeOptions {
   type: {
-    name: String,
-  },
+    name: string
+  }
 }
 
-const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
+export const extendNodeType = ({
+  type,
+}: ExtendNodeTypeOptions): Promise<object> => {
   if (type.name !== 'S3ImageAsset') {
     return {}
   }
 
   return Promise.resolve({
     ETag: { type: GraphQLString },
-    Key: { type: GraphQLString },
     EXIF: {
       type: new GraphQLObjectType({
-        name: 'ExifData',
         fields: {
           DateCreatedISO: { type: GraphQLString },
           DateTimeOriginal: { type: GraphQLInt },
@@ -63,7 +61,9 @@ const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
           Model: { type: GraphQLString },
           ShutterSpeedValue: { type: GraphQLFloat },
         },
+        name: 'ExifData',
       }),
+
       resolve(image: S3ImageAssetNode) {
         return {
           ...type,
@@ -71,9 +71,6 @@ const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
         }
       },
     },
+    Key: { type: GraphQLString },
   })
 }
-
-exports.extendNodeType = extendNodeType
-
-exports.resolveExifData = resolveExifData
