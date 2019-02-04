@@ -11,7 +11,7 @@
  *         id
  *         EXIF {
  *           DateCreatedISO
- *           FNumber
+ *           Fnumber
  *           // ...etc
  *         }
  *       }
@@ -35,7 +35,7 @@
  *         }
  *         EXIF {
  *           DateCreatedISO
- *           FNumber
+ *           Fnumber
  *           // ...etc
  *         }
  *       }
@@ -45,13 +45,13 @@
  * ```
  */
 export interface ExifData {
-  DateCreatedISO?: String
-  DateTimeOriginal?: Number
-  ExposureTime?: Number
-  FNumber?: Number
-  FocalLength?: Number
-  ISO?: Number
-  LensModel?: String
-  Model?: String
-  ShutterSpeedValue?: Number
+  DateCreatedISO?: string
+  DateTimeOriginal?: number
+  ExposureTime?: number
+  FNumber?: number
+  FocalLength?: number
+  ISO?: number
+  LensModel?: string
+  Model?: string
+  ShutterSpeedValue?: number
 }

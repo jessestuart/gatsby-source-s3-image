@@ -1,6 +1,6 @@
-import _ from 'lodash'
 import AWS from 'aws-sdk'
 import { createRemoteFileNode } from 'gatsby-source-filesystem'
+import _ from 'lodash'
 
 // =================
 // AWS config setup.
@@ -93,10 +93,10 @@ export const sourceNodes = async (
         createNode,
         domain,
         entity,
-        protocol,
-        store,
-        s3Url,
         localFile___NODE: null,
+        protocol,
+        s3Url,
+        store,
       }
 
       const fileNode = await createS3RemoteFileNode(entityData)
@@ -106,8 +106,8 @@ export const sourceNodes = async (
       entityData.localFile___NODE = fileNode.id
       return createS3ImageAssetNode({
         ...entityData,
-        fileNode,
         done,
+        fileNode,
       })
     })
   )
@@ -117,13 +117,13 @@ export const sourceNodes = async (
 const createS3RemoteFileNode = async ({ cache, createNode, store, s3Url }) => {
   try {
     return await createRemoteFileNode({
-      url: s3Url,
-      store,
       cache,
       createNode,
+      store,
+      url: s3Url,
     })
   } catch (err) {
-    // @ts-ignore
+    // tslint:disable
     console.error('Unable to create file node.', err)
     return null
   }

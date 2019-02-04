@@ -1,6 +1,7 @@
 !*.config.js
 /*.js
 /dist/
-/types/*.js
 /node_modules/
 yarn.lock
+**/*.d.ts
+**/*.map
