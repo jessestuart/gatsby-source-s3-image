@@ -44,7 +44,7 @@
  * }
  * ```
  */
-export interface ExifData {
+export default interface ExifData {
   DateCreatedISO?: string
   DateTimeOriginal?: number
   ExposureTime?: number

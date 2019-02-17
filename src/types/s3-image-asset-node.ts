@@ -1,4 +1,4 @@
-import { ExifData } from './exif-data'
+import ExifData from './exif-data'
 
 /**
  * S3ImageAssetNode is a minimal wrapper composing the default Node
@@ -6,7 +6,7 @@ import { ExifData } from './exif-data'
  * and `ETag` (object digest), but the full map of Exif
  * properties are injected during the `extend-node-type` step.
  */
-export interface S3ImageAssetNode {
+export default interface S3ImageAssetNode {
   id: string
   absolutePath: string
   ETag: string

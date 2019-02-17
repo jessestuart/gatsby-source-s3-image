@@ -14,6 +14,7 @@
     "outDir": ".",
     "rootDir": "src",
     "sourceMap": true,
+    "strictNullChecks": true,
     "target": "es6",
     "types": ["node"]
   },

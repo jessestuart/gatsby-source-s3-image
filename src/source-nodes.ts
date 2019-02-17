@@ -21,9 +21,9 @@ export interface SourceS3Options {
   // overridden to e.g., support CDN's (such as CloudFront),
   // or any other S3-compliant API (such as DigitalOcean
   // Spaces.)
-  domain: string | null | undefined
+  domain: string
   // Defaults to HTTPS.
-  protocol: string | null | undefined
+  protocol: string
 }
 
 const constructS3UrlForAsset = ({
@@ -46,7 +46,7 @@ const constructS3UrlForAsset = ({
   return null
 }
 
-const isImage = entity => {
+const isImage = (entity: any): boolean => {
   // S3 API doesn't expose Content-Type, and we don't want to make unnecessary
   // HTTP requests for non-images... so we'll just infer based on the suffix
   // of the Key.
@@ -55,11 +55,12 @@ const isImage = entity => {
 }
 
 export const sourceNodes = async (
-  { boundActionCreators, store, cache },
-  { bucketName, domain, protocol }: SourceS3Options,
+  { actions, store, cache },
+  { bucketName, domain, protocol = 'https' }: SourceS3Options,
   done
-) => {
-  const { createNode } = boundActionCreators
+): Promise<void> => {
+  console.log('source nodes')
+  const { createNode } = actions
 
   const listObjectsResponse = await S3.makeUnauthenticatedRequest(
     'listObjectsV2',
@@ -68,6 +69,7 @@ export const sourceNodes = async (
     }
   ).promise()
   const s3Entities = _.get(listObjectsResponse, 'Contents')
+  console.log({ s3Entities })
 
   await Promise.all(
     s3Entities.map(async entity => {
@@ -114,7 +116,12 @@ export const sourceNodes = async (
   done()
 }
 
-const createS3RemoteFileNode = async ({ cache, createNode, store, s3Url }) => {
+const createS3RemoteFileNode = async ({
+  cache,
+  createNode,
+  store,
+  s3Url,
+}): Promise<any | void> => {
   try {
     return await createRemoteFileNode({
       cache,
@@ -136,8 +143,8 @@ const createS3ImageAssetNode = async ({
   fileNode,
   s3Url,
   // @ts-ignore
-  ...rest
-}) => {
+  // ...rest
+}): Promise<void> => {
   const { Key, ETag } = entity
   // TODO: Could probably pull this from fileNode.
   const ContentType = 'image/jpeg'

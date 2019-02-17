@@ -39,7 +39,9 @@ export interface ExtendNodeTypeOptions {
   }
 }
 
-export const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
+export const extendNodeType = ({
+  type,
+}: ExtendNodeTypeOptions): Promise<object> => {
   if (type.name !== 'S3ImageAsset') {
     return {}
   }
