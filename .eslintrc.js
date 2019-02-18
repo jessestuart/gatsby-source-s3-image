@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    'prettier',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['prettier', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
   env: {
     browser: true,
@@ -24,13 +21,16 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/member-delimiter-style': ['error', {
-      multiline: {
-        delimiter: 'none',
-        requireLast: true,
-      }
-    }],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: true,
+        },
+      },
+    ],
     '@typescript-eslint/no-use-before-define': ['off'],
     '@typescript-eslint/camelcase': ['off'],
-  }
+  },
 }

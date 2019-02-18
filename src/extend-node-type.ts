@@ -6,12 +6,12 @@ import {
   GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-} from 'graphql'
+} from 'gatsby/graphql'
 import _ from 'lodash'
 import { DateTime } from 'luxon'
 
-import { ExifData } from './types/exif-data'
-import { S3ImageAssetNode } from './types/s3-image-asset-node'
+import ExifData from './types/exif-data'
+import S3ImageAssetNode from './types/s3-image-asset-node'
 
 export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   const file = fs.readFileSync(image.absolutePath)
@@ -46,6 +46,7 @@ export const extendNodeType = ({
     return {}
   }
 
+  console.log('extend node type', { type })
   return Promise.resolve({
     ETag: { type: GraphQLString },
     EXIF: {

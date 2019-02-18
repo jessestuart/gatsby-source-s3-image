@@ -4,7 +4,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "inlineSources": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "es2015"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,

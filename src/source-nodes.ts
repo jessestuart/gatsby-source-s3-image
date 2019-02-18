@@ -46,7 +46,7 @@ const constructS3UrlForAsset = ({
   return null
 }
 
-const isImage = (entity: any): boolean => {
+function isImage(entity): boolean {
   // S3 API doesn't expose Content-Type, and we don't want to make unnecessary
   // HTTP requests for non-images... so we'll just infer based on the suffix
   // of the Key.
@@ -55,7 +55,7 @@ const isImage = (entity: any): boolean => {
 }
 
 export const sourceNodes = async (
-  { actions, store, cache },
+  { actions, store, cache, createNodeId },
   { bucketName, domain, protocol = 'https' }: SourceS3Options,
   done
 ): Promise<void> => {
@@ -93,6 +93,7 @@ export const sourceNodes = async (
         bucketName,
         cache,
         createNode,
+        createNodeId,
         domain,
         entity,
         localFile___NODE: null,
@@ -121,11 +122,13 @@ const createS3RemoteFileNode = async ({
   createNode,
   store,
   s3Url,
+  createNodeId,
 }): Promise<any | void> => {
   try {
     return await createRemoteFileNode({
       cache,
       createNode,
+      createNodeId,
       store,
       url: s3Url,
     })
