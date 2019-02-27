@@ -1,19 +1,18 @@
-import Promise from 'bluebird'
 import exif from 'exif-parser'
 import fs from 'fs'
-import {
+import _ from 'lodash'
+import { DateTime } from 'luxon'
+import ExifDataType from './types/exif-data'
+import S3ImageAssetNode from './types/s3-image-asset-node'
+
+const {
   GraphQLFloat,
   GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-} from 'gatsby/graphql'
-import _ from 'lodash'
-import { DateTime } from 'luxon'
+} = require('gatsby/graphql')
 
-import ExifData from './types/exif-data'
-import S3ImageAssetNode from './types/s3-image-asset-node'
-
-export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
+export const resolveExifData = (image: S3ImageAssetNode): ExifDataType => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
@@ -39,17 +38,18 @@ export interface ExtendNodeTypeOptions {
   }
 }
 
-export const extendNodeType = ({
-  type,
-}: ExtendNodeTypeOptions): Promise<object> => {
+export default ({ type }: ExtendNodeTypeOptions) => {
   if (type.name !== 'S3ImageAsset') {
     return {}
   }
 
-  console.log('extend node type', { type })
   return Promise.resolve({
     ETag: { type: GraphQLString },
     EXIF: {
+      resolve: (image: S3ImageAssetNode) => ({
+        ...type,
+        ...resolveExifData(image),
+      }),
       type: new GraphQLObjectType({
         fields: {
           DateCreatedISO: { type: GraphQLString },
@@ -64,13 +64,6 @@ export const extendNodeType = ({
         },
         name: 'ExifData',
       }),
-
-      resolve(image: S3ImageAssetNode) {
-        return {
-          ...type,
-          ...resolveExifData(image),
-        }
-      },
     },
     Key: { type: GraphQLString },
   })

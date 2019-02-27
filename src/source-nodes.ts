@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk'
-import { createRemoteFileNode } from 'gatsby-source-filesystem'
 import _ from 'lodash'
+
+// tslint:disable eslint-disable-next-line
+const { createRemoteFileNode } = require('gatsby-source-filesystem')
 
 // =================
 // AWS config setup.
@@ -56,10 +58,8 @@ function isImage(entity): boolean {
 
 export const sourceNodes = async (
   { actions, store, cache, createNodeId },
-  { bucketName, domain, protocol = 'https' }: SourceS3Options,
-  done
-): Promise<void> => {
-  console.log('source nodes')
+  { bucketName, domain, protocol = 'https' }: SourceS3Options
+): Promise<any> => {
   const { createNode } = actions
 
   const listObjectsResponse = await S3.makeUnauthenticatedRequest(
@@ -69,20 +69,20 @@ export const sourceNodes = async (
     }
   ).promise()
   const s3Entities = _.get(listObjectsResponse, 'Contents')
+  // tslint:disable
   console.log({ s3Entities })
 
-  await Promise.all(
+  return await Promise.all(
     s3Entities.map(async entity => {
+      console.log('proceessing s3 entity', { entity })
       if (!isImage(entity)) {
         return null
       }
 
-      // @ts-ignore
       const s3Url: string | null | undefined = constructS3UrlForAsset({
         bucketName,
         domain,
         key: entity.Key,
-        // @ts-ignore
         protocol,
       })
       if (!s3Url) {
@@ -106,15 +106,15 @@ export const sourceNodes = async (
       if (!fileNode) {
         return null
       }
+
       entityData.localFile___NODE = fileNode.id
-      return createS3ImageAssetNode({
-        ...entityData,
-        done,
+
+      return await createS3ImageAssetNode({
+        ..._.pick(entityData, ['createNode', 'entity', 's3Url']),
         fileNode,
       })
     })
   )
-  done()
 }
 
 const createS3RemoteFileNode = async ({
@@ -141,13 +141,11 @@ const createS3RemoteFileNode = async ({
 
 const createS3ImageAssetNode = async ({
   createNode,
-  done,
   entity,
   fileNode,
   s3Url,
-  // @ts-ignore
-  // ...rest
-}): Promise<void> => {
+}): Promise<any> => {
+  console.log({ entity })
   const { Key, ETag } = entity
   // TODO: Could probably pull this from fileNode.
   const ContentType = 'image/jpeg'
@@ -156,7 +154,8 @@ const createS3ImageAssetNode = async ({
   // > to the contents of an object, not its metadata.
   // @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html
   const objectHash = ETag.replace(/"/g, '')
-  await createNode({
+  console.log({ objectHash })
+  return await createNode({
     ...entity,
     id: `${Key} >> ${S3SourceGatsbyNodeType}`,
     absolutePath: fileNode.absolutePath,
@@ -170,5 +169,4 @@ const createS3ImageAssetNode = async ({
       type: S3SourceGatsbyNodeType,
     },
   })
-  done()
 }

@@ -1,5 +1,4 @@
-export { sourceNodes } from './source-nodes'
+import setFieldsOnGraphQLNodeType from './set-fields-on-graphql-node-type'
 
-export {
-  extendNodeType as setFieldsOnGraphQLNodeType,
-} from './extend-node-type'
+export { sourceNodes } from './source-nodes'
+export { setFieldsOnGraphQLNodeType }

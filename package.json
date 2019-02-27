@@ -9,37 +9,46 @@
     "type": "git",
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
   },
+  "peerDependencies": {
+    "gatsby": "^2.1.0",
+    "gatsby-image": "^2.0.30",
+    "gatsby-source-filesystem": "^2.0.20",
+    "react": "latest"
+  },
   "dependencies": {
+    "@babel/runtime": "7.3.4",
     "aws-sdk": "2.411.0",
+    "axios": "0.18.0",
     "bluebird": "3.5.3",
     "exif-parser": "0.1.12",
-    "gatsby": "2.1.4",
-    "gatsby-source-filesystem": "2.0.20",
+    "gatsby-image": "2.0.30",
     "lodash": "4.17.11",
-    "luxon": "1.11.2"
+    "luxon": "1.11.3",
+    "react": "16.8.3"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.3",
+    "@babel/core": "7.3.4",
     "@babel/preset-typescript": "7.3.3",
     "@semantic-release/git": "7.0.8",
-    "@types/graphql": "14.0.7",
+    "@types/bluebird": "3.5.26",
     "@types/lodash": "4.14.121",
-    "@types/node": "11.9.4",
-    "@typescript-eslint/eslint-plugin": "1.3.0",
-    "@typescript-eslint/parser": "1.3.0",
+    "@types/node": "11.9.5",
+    "@typescript-eslint/eslint-plugin": "1.4.2",
+    "@typescript-eslint/parser": "1.4.2",
     "babel-jest": "24.1.0",
     "babel-plugin-add-module-exports": "1.0.0",
     "babel-plugin-lodash": "3.3.4",
     "babel-preset-gatsby-package": "0.1.3",
-    "eslint": "5.14.0",
-    "eslint-config-prettier": "4.0.0",
+    "eslint": "5.14.1",
+    "eslint-config-prettier": "4.1.0",
+    "json-stringify-pretty-compact": "2.0.0",
     "prettier": "1.16.4",
     "semantic-release": "15.13.3",
-    "tslint": "5.12.1",
+    "tslint": "5.13.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-config-standard": "8.0.1",
-    "typescript": "3.3.3"
+    "typescript": "3.3.3333"
   },
   "keywords": [
     "exif",

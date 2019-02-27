@@ -20,6 +20,8 @@ module.exports = {
     },
   },
   rules: {
+    semi: ['error', 'never'],
+    '@typescript-eslint/no-var-requires': ['off'],
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/member-delimiter-style': [
       'error',

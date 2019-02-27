@@ -11,6 +11,7 @@
     "exclude": ["node_modules"]
   },
   "rules": {
+    "semicolon": [true, "never", "ignore-interfaces"],
     "interface-name": false,
     "no-use-before-declare": false,
     "trailing-comma": [true, "es5"]
