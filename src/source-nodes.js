@@ -4,6 +4,7 @@
 const _ = require('lodash')
 const AWS = require('aws-sdk')
 const Promise = require('bluebird')
+const uuid = require('uuid/v4')
 
 // ============
 // Gatsby APIs.
@@ -120,6 +121,7 @@ const createS3RemoteFileNode = async ({ cache, createNode, store, s3Url }) => {
       store,
       cache,
       createNode,
+      createNodeId: () => uuid(),
     })
   } catch (err) {
     // eslint-disable-next-line
