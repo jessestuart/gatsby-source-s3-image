@@ -1,9 +1,9 @@
 !*.config.js
+**/*.d.ts
+**/*.map
 /*.js
 /dist/
 /node_modules/
 /types/
-yarn.lock
-**/*.d.ts
-**/*.map
 report*
+yarn.lock
