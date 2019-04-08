@@ -1,12 +1,13 @@
+import { S3 } from 'aws-sdk'
 import { createRemoteFileNode } from 'gatsby-source-filesystem'
-import AWS, { S3 } from 'aws-sdk'
 import _ from 'lodash'
-import fp from 'lodash/fp'
+
+import { constructS3UrlForAsset, isImage } from './utils'
 
 // =================
 // AWS config setup.
 // =================
-const S3Instance = new AWS.S3({ apiVersion: '2006-03-01' })
+const S3Instance: S3 = new S3({ apiVersion: '2006-03-01' })
 
 // =========================
 // Plugin-specific constants.
@@ -27,149 +28,84 @@ export interface SourceS3Options {
   protocol: string
 }
 
-// const constructS3UrlForAsset = ({
-//   bucketName,
-//   domain,
-//   key,
-//   protocol = 'https',
-// }): string | null => {
-//   console.log({ bucketName, domain, key, protocol })
-//   // Both `key` and either one of `bucketName` or `domain` are required.
-//   // if (!_.some(key, _.every([bucketName, domain]))) {
-//   if (!key || !(bucketName && domain)) {
-//     console.warn(
-//       'returning early: either key is undefined, or both bucketname and domain are.'
-//     )
-//     return null
-//   }
-//   // If `domain` is defined, that takes precedence over `bucketName.`
-//   return domain
-//     ? `${protocol}://${domain}/${key}`
-//     : `${protocol}://${bucketName}.s3.amazonaws.com/${key}`
-// }
-
-const constructS3UrlForAsset = ({
-  bucketName,
-  domain,
-  key,
-  protocol = 'https',
-}) => {
-  // Both `key` and either one of `bucketName` or `domain` are required.
-  if (!key || (!bucketName && !domain)) {
-    return null
-  }
-  // If `domain` is defined, that takes precedence over `bucketName.`
-  if (domain) {
-    return `${protocol}://${domain}/${key}`
-  }
-  if (bucketName) {
-    return `${protocol}://${bucketName}.s3.amazonaws.com/${key}`
-  }
-  return null
-}
-
-/**
- * S3 API doesn't expose Content-Type, and we don't want to make unnecessary
- * HTTP requests for non-images... so we'll just infer based on the suffix
- * of the Key.
- */
-export const isImage = (entity): boolean => {
-  const extension: string | undefined = _.flow(
-    fp.get('Key'),
-    fp.split('.'),
-    fp.last
-  )(entity)
-  return _.includes(['gif', 'jpeg', 'jpg', 'png', 'webp'], extension)
-}
-
 export const sourceNodes = async (
-  { actions, cache, createContentDigest, store },
+  { actions: { createNode }, cache, createNodeId, store },
   { bucketName, domain, protocol = 'https' }: SourceS3Options
 ): Promise<any> => {
-  console.log('\n=====================================')
-  console.log('SOURCE NODES')
-  console.log('=====================================')
-  const { createNode } = actions
-
   const listObjectsResponse: S3.ListObjectsV2Output = await S3Instance.listObjectsV2(
     { Bucket: bucketName }
   ).promise()
-  console.log({ listObjectsResponse })
+
   const s3Entities: S3.ObjectList | undefined = _.get(
     listObjectsResponse,
     'Contents'
   )
   if (!s3Entities) {
-    console.trace('Returning early because bucket is empty.')
-    return
+    return Promise.resolve([])
   }
-  console.log('')
-  console.log({ s3Entities })
 
   return await Promise.all(
-    s3Entities.map(async entity => {
-      console.log('====================================================')
-      console.log('processing s3 entity\n', { entity })
-      console.log('====================================================')
-      if (!isImage(entity)) {
-        console.warn('returning early because node is not image: \n', {
-          entity,
+    _.compact(
+      s3Entities.map(async (entity: S3.Object) => {
+        if (!isImage(entity)) {
+          return null
+        }
+
+        const s3Url: string | undefined = constructS3UrlForAsset({
+          bucketName,
+          domain,
+          key: entity.Key,
+          protocol,
         })
-        return null
-      }
+        if (!s3Url) {
+          return null
+        }
 
-      const s3Url: string | null = constructS3UrlForAsset({
-        bucketName,
-        domain,
-        key: entity.Key,
-        protocol,
+        const entityData = {
+          bucketName,
+          cache,
+          createNode,
+          createNodeId,
+          domain,
+          entity,
+          localFile___NODE: null,
+          protocol,
+          s3Url,
+          store,
+        }
+
+        try {
+          const fileNode = await createS3RemoteFileNode(entityData)
+          if (!fileNode) {
+            return null
+          }
+
+          entityData.localFile___NODE = fileNode.id
+
+          return await createS3ImageAssetNode({
+            ..._.pick(entityData, [
+              'createNode',
+              'createNodeId',
+              'entity',
+              's3Url',
+            ]),
+            fileNode,
+          })
+        } catch (err) {
+          Promise.reject(err)
+        }
       })
-      console.log('s3 URL: ', { s3Url })
-      if (!s3Url) {
-        console.error('s3Url is null for entity', { entity })
-        return null
-      }
-
-      const entityData = {
-        bucketName,
-        cache,
-        createNode,
-        createNodeId: createContentDigest,
-        domain,
-        entity,
-        localFile___NODE: null,
-        protocol,
-        s3Url,
-        store,
-      }
-
-      const fileNode = await createS3RemoteFileNode(entityData)
-      console.log({ fileNode })
-      if (!fileNode) {
-        console.log('returning early from create s3 remote file node')
-        return null
-      }
-
-      entityData.localFile___NODE = fileNode.id
-
-      return await createS3ImageAssetNode({
-        ..._.pick(entityData, ['createNode', 'entity', 's3Url']),
-        fileNode,
-      })
-    })
+    )
   )
 }
 
 const createS3RemoteFileNode = async ({
   cache,
   createNode,
-  store,
-  s3Url,
   createNodeId,
-}): Promise<any | void> => {
-  console.log('============================================')
-  console.log('createS3RemoteFileNode')
-  console.log('============================================')
+  s3Url,
+  store,
+}): Promise<any | undefined> => {
   try {
     return await createRemoteFileNode({
       cache,
@@ -179,21 +115,23 @@ const createS3RemoteFileNode = async ({
       url: s3Url,
     })
   } catch (err) {
-    console.error('Unable to create file node.', err)
-    return
+    return Promise.reject(err)
   }
 }
 
 const createS3ImageAssetNode = async ({
   createNode,
+  createNodeId,
   entity,
   fileNode,
   s3Url,
+}: {
+  createNode: Function
+  createNodeId: Function
+  entity: S3.Object
+  fileNode: any
+  s3Url: string
 }): Promise<any> => {
-  console.log('========================================================')
-  console.log('createS3ImageAssetNode')
-  console.log('========================================================')
-  console.log({ entity })
   const { Key, ETag } = entity
   // TODO: Could probably pull this from fileNode.
   const ContentType = 'image/jpeg'
@@ -201,15 +139,15 @@ const createS3ImageAssetNode = async ({
   // > The entity tag is a hash of the object. The ETag reflects changes only
   // > to the contents of an object, not its metadata.
   // @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html
-  const objectHash = ETag.replace(/"/g, '')
-  console.log({ objectHash })
+  const objectHash: string = _.replace(ETag!, /\"/g, '')
+  const fileNodeId: string = _.get(fileNode, 'id')
   return await createNode({
     ...entity,
-    id: `${Key} >> ${S3SourceGatsbyNodeType}`,
+    id: createNodeId(objectHash),
     absolutePath: fileNode.absolutePath,
     Key,
-    parent: fileNode.id,
-    children: [],
+    parent: null,
+    children: [fileNodeId],
     internal: {
       content: s3Url,
       contentDigest: objectHash,
@@ -219,22 +157,21 @@ const createS3ImageAssetNode = async ({
   })
 }
 
-// export const onCreateNode = async (
-//   { actions: { createNode }, node, createContentDigest, store, cache },
-//   { nodeName = `localFile` }
-// ) => {
-//   // if (filter(node)) {
-//   const fileNode = await createRemoteFileNode({
-//     url: node.url,
-//     store,
-//     cache,
-//     createNode,
-//     createNodeId: createContentDigest,
-//   })
-//   console.log({ fileNode })
-//   if (fileNode) {
-//     const fileNodeLink = `${nodeName}___NODE`
-//     node[fileNodeLink] = fileNode.id
-//   }
-//   // }
-// }
+export const onCreateNode = async (
+  { actions, node, createContentDigest, store, cache },
+  { nodeName = 'localFile' }
+): Promise<any> => {
+  const { createNode } = actions
+  const { url } = node
+  const fileNode = await createRemoteFileNode({
+    cache,
+    createNode,
+    createNodeId: createContentDigest,
+    store,
+    url,
+  })
+  if (fileNode) {
+    const fileNodeLink = `${nodeName}___NODE`
+    node[fileNodeLink] = fileNode.id
+  }
+}

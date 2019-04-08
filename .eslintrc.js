@@ -22,18 +22,14 @@ module.exports = {
   },
   rules: {
     semi: ['error', 'never'],
-    '@typescript-eslint/no-var-requires': ['off'],
+    '@typescript-eslint/camelcase': ['off'],
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/member-delimiter-style': [
       'error',
-      {
-        multiline: {
-          delimiter: 'none',
-          requireLast: true,
-        },
-      },
+      { multiline: { delimiter: 'none' } },
     ],
+    '@typescript-eslint/no-non-null-assertion': ['off'],
     '@typescript-eslint/no-use-before-define': ['off'],
-    '@typescript-eslint/camelcase': ['off'],
+    '@typescript-eslint/no-var-requires': ['off'],
   },
 }
