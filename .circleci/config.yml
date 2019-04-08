@@ -1,5 +1,4 @@
----
-version: 2
+version: 2.1
 
 # ====================
 # WORKFLOW DECLARATION
@@ -15,18 +14,26 @@ workflows:
       - lint:
           requires:
             - install_dependencies
+      - test:
+          requires:
+            - install_dependencies
       - release:
           requires:
             - build
             - lint
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
+            - test
+          filters:
+            branches:
+              only:
+                - master
 
 # ====================
-# SHARED JOBS POINTERS
+# ALIASES
 # ====================
+docker_image: &docker_image
+  docker:
+    - image: circleci/node:11
+
 restore_cache: &restore_cache
   restore_cache:
     keys:
@@ -42,16 +49,14 @@ save_cache: &save_cache
 install_dependencies: &install_dependencies
   run:
     name: Install dependencies.
-    command: yarn -s --no-progress
+    command: yarn -s --no-progress --frozen-lockfile
 
 # ================
 # JOB DECLARATIONS
 # ================
 jobs:
-
   install_dependencies:
-    docker:
-      - image: circleci/node:10
+    <<: *docker_image
     steps:
       - checkout
       - *restore_cache
@@ -59,8 +64,7 @@ jobs:
       - *save_cache
 
   lint:
-    docker:
-      - image: circleci/node:10
+    <<: *docker_image
     steps:
       - checkout
       - *restore_cache
@@ -68,22 +72,27 @@ jobs:
           name: Run linter.
           command: yarn lint
 
+  test:
+    <<: *docker_image
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Run jest test suite.
+          command: yarn test
+
   build:
-    docker:
-      - image: circleci/node:10
+    <<: *docker_image
     steps:
       - checkout
       - *restore_cache
       - run:
           name: Transpile sources.
           command: yarn build
-      - *save_cache
 
   release:
-    docker:
-      - image: circleci/node:10
+    <<: *docker_image
     steps:
       - checkout
       - *restore_cache
-      - *install_dependencies
       - run: yarn semantic-release
