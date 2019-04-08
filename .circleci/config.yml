@@ -79,7 +79,10 @@ jobs:
       - *restore_cache
       - run:
           name: Run jest test suite.
-          command: yarn test
+          command: yarn test --coverage
+      - run:
+          name: Upload coverage stats to Codecov.
+          command: yarn codecov -t $CODECOV_TOKEN
 
   build:
     <<: *docker_image
