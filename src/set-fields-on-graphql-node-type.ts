@@ -15,7 +15,6 @@ const {
 } = require('gatsby/graphql')
 
 export const resolveExifData = (image: S3ImageAssetNode): ExifDataType => {
-  console.log('resolve exif data', { image })
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
