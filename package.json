@@ -1,7 +1,7 @@
 {
   "name": "gatsby-source-s3-image",
   "description": "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
-  "version": "0.3.0",
+  "version": "0.2.132",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "main": "index.js",
@@ -10,6 +10,7 @@
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
   },
   "peerDependencies": {
+    "gatsby": ">=2.0.0",
     "gatsby-image": ">=2.0.0",
     "gatsby-source-filesystem": ">=2.0.0",
     "react": ">=16"
@@ -20,12 +21,8 @@
     "axios": "0.18.0",
     "bluebird": "3.5.3",
     "exif-parser": "0.1.12",
-    "gatsby-image": "2.0.30",
-    "gatsby-node-helpers": "0.3.0",
     "lodash": "4.17.11",
-    "luxon": "1.11.3",
-    "react": "16.8.3",
-    "uuid": "3.3.2"
+    "luxon": "1.11.3"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
