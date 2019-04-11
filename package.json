@@ -10,10 +10,10 @@
     "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
   },
   "peerDependencies": {
-    "gatsby": ">=2.0.0",
-    "gatsby-image": ">=2.0.0",
-    "gatsby-source-filesystem": ">=2.0.0",
-    "react": ">=16"
+    "gatsby": "^2.0.0",
+    "gatsby-image": "^2.0.0",
+    "gatsby-source-filesystem": "^2.0.0",
+    "react": "^16"
   },
   "dependencies": {
     "@babel/runtime": "7.3.4",
@@ -22,7 +22,8 @@
     "bluebird": "3.5.3",
     "exif-parser": "0.1.12",
     "lodash": "4.17.11",
-    "luxon": "1.11.3"
+    "luxon": "1.11.3",
+    "mime-types": "2.1.22"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
