@@ -49,57 +49,46 @@ export const sourceNodes = async (
 
   return await Promise.all(
     _.compact(
-      s3Entities.map(async (entity: S3.Object) => {
-        if (!isImage(entity)) {
-          return null
-        }
-
-        const url: string | undefined = constructS3UrlForAsset({
-          bucketName,
-          domain,
-          key: entity.Key,
-          protocol,
-        })
-        if (!url) {
-          return null
-        }
-
-        // const entityData = {
-        //   bucketName,
-        //   cache,
-        //   createNode,
-        //   createNodeId,
-        //   domain,
-        //   entity,
-        //   localFile___NODE: null,
-        //   protocol,
-        //   url,
-        //   store,
-        // }
-
-        try {
-          const fileNode = await createS3RemoteFileNode({
-            cache,
-            createNode,
-            createNodeId,
-            url,
-            store,
-          })
-          if (!fileNode) {
-            return null
+      s3Entities.map(
+        async (entity: S3.Object): Promise<void> => {
+          if (!isImage(entity)) {
+            return
           }
 
-          return await createS3ImageAssetNode({
-            createNode,
-            createNodeId,
-            entity,
-            fileNode,
-            url,
+          const url: string | undefined = constructS3UrlForAsset({
+            bucketName,
+            domain,
+            key: entity.Key,
+            protocol,
           })
-        } catch (err) {
-          Promise.reject(err)
+          if (!url) {
+            return
+          }
+
+          try {
+            const fileNode = await createS3RemoteFileNode({
+              cache,
+              createNode,
+              createNodeId,
+              url,
+              store,
+            })
+            if (!fileNode) {
+              return
+            }
+
+            return await createS3ImageAssetNode({
+              createNode,
+              createNodeId,
+              entity,
+              fileNode,
+              url,
+            })
+          } catch (err) {
+            Promise.reject(err)
+          }
         }
-      })
+      )
     )
   )
 }
@@ -136,7 +125,7 @@ const createS3ImageAssetNode = async ({
   entity: S3.Object
   fileNode: { absolutePath: string; id: string }
   url: string
-}): Promise<any> => {
+}): Promise<void> => {
   const { Key, ETag } = entity
   // TODO: Use the `mime-types` lib to populate this dynamically.
   // const ContentType = 'image/jpeg'
@@ -150,7 +139,7 @@ const createS3ImageAssetNode = async ({
   await createNode({
     ...entity,
     absolutePath: fileNode.absolutePath,
-    children: fileNodeId,
+    children: [fileNodeId],
     ETag: objectHash,
     id: createNodeId(objectHash),
     Key,

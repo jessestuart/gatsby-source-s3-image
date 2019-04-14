@@ -66,5 +66,3 @@ export enum ExifFields {
   Model,
   ShutterSpeedValue,
 }
-
-console.log(ExifFields)

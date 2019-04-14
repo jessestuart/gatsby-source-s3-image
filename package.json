@@ -63,9 +63,9 @@
   "license": "MIT",
   "main": "index.js",
   "peerDependencies": {
-    "gatsby": "^2.3.22",
-    "gatsby-image": "^2.0.38",
-    "gatsby-source-filesystem": "^2.0.29",
+    "gatsby": "^2",
+    "gatsby-image": "^2",
+    "gatsby-source-filesystem": "^2",
     "react": "^16"
   },
   "repository": {
