@@ -1,10 +1,5 @@
 ## gatsby-source-s3-image
 
-[![CircleCI][circleci-badge]][circleci-link]
-[![npm][npm-badge]][npm-link]
-[![Maintainability][codeclimate]][codeclimate 2]
-[![codecov][codecov]][codecov 2]
-
 GatsbyJS Source plugin for **converting images from an S3-compliant API[1] into
 GatsbyJS nodes** (with full support for hooking into all of the powerful
 features the `GatsbyImage` API has to offer).
@@ -13,15 +8,15 @@ Additionally, `gatsby-source-s3-image` will **automatically detect and extract
 image EXIF metadata from your photos**, and expose this data at the GraphQL
 layer as node fields. Currently supported EXIF fields include:
 
-- `DateCreatedISO` (String)
-- `DateTimeOriginal` (Number)
-- `ExposureTime` (Number)
-- `FNumber` (Number)
-- `FocalLength` (Number)
-- `ISO` (Number)
-- `LensModel` (String)
-- `Model` (String)
-- `ShutterSpeedValue` (Number)
+- `DateCreatedISO` (`string`)
+- `DateTimeOriginal` (`number`)
+- `ExposureTime` (`number`)
+- `FNumber` (`number`)
+- `FocalLength` (`number`)
+- `ISO` (`number`)
+- `LensModel` (`string`)
+- `Model` (`string`)
+- `ShutterSpeedValue` (`number`)
 
 These fields are properties of the "wrapper" node, `S3ImageAsset`. This type
 composes the `ImageSharp` node, the `File` node representing the cached image on
@@ -42,22 +37,24 @@ export const pageQuery = graphql`
             FNumber
             ShutterSpeedValue
           }
-          childImageSharp {
-            original {
-              height
-              width
-            }
-            thumbnailSizes: sizes(maxWidth: 512) {
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-            largeSizes: sizes(maxWidth: 1536) {
-              aspectRatio
-              src
-              srcSet
-              sizes
+          childrenFile {
+            childImageSharp {
+              original {
+                height
+                width
+              }
+              thumbnailSizes: fluid(maxWidth: 512) {
+                aspectRatio
+                src
+                srcSet
+                sizes
+              }
+              largeSizes: fluid(maxWidth: 1536) {
+                aspectRatio
+                src
+                srcSet
+                sizes
+              }
             }
           }
         }
@@ -67,8 +64,9 @@ export const pageQuery = graphql`
 `
 ```
 
-includes AWS S3, of course, as well as third-party solutions like Digital Ocean
-Spaces, or open source / self-hosted products like Minio.
+[1] This includes AWS S3, of course, as well as third-party solutions like
+Digital Ocean Spaces, or open source / self-hosted products like
+[MinIO][min].
 
 ### Setup
 
@@ -89,8 +87,8 @@ const sourceS3 = {
   resolve: 'gatsby-source-s3-image',
   options: {
     bucketName: 'jesse.pics',
-    domain: null, // Not necessary to define here for AWS S3; defaults to `s3.amazonaws.com`
-    protocol: 'https',
+    domain: null, // [optional] Not necessary to define for AWS S3; defaults to `s3.amazonaws.com`
+    protocol: 'https', // [optional] Default to `https`.
   },
 }
 
@@ -107,31 +105,31 @@ module.exports = { plugins }
 1. As mentioned above, `gatsby-source-s3-image` exposes nodes of type
    `S3ImageAsset`:
 
-```flow
-type S3ImageAssetNode = {
-  id: String,
-  absolutePath: String,
-  ETag: String,
-  Key: String,
-  EXIF: ?ExifData, // ExifData is defined below -->
+```typescript
+interface S3ImageAssetNode {
+  id: string
+  absolutePath: string
+  ETag: string
+  Key: string
+  EXIF: ?ExifData // ExifData is defined below -->
   internal: {
-    content: String,
-    contentDigest: String,
-    mediaType: String,
-    type: String,
-  },
+    content: string
+    contentDigest: string
+    mediaType: string
+    type: string
+  }
 }
 
-type ExifData = {
-  DateCreatedISO: String,
-  DateTimeOriginal: Number,
-  ExposureTime: Number,
-  FNumber: Number,
-  FocalLength: Number,
-  ISO: Number,
-  LensModel: String,
-  Model: String,
-  ShutterSpeedValue: Number,
+interface ExifData {
+  DateCreatedISO: string
+  DateTimeOriginal: number
+  ExposureTime: number
+  FNumber: number
+  FocalLength: number
+  ISO: number
+  LensModel: string
+  Model: string
+  ShutterSpeedValue: number
 }
 ```
 
@@ -156,8 +154,8 @@ const photographyQuery = `{
 }`
 
 // We can then dynamically generate pages based on EXIF data, like this:
-const createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
+const createPages = ({ actions }) => {
+  const { createPage } = actions
   const photographyTemplate = path.resolve(
     './src/templates/photography-post.js'
   )
@@ -183,9 +181,10 @@ const createPages = ({ graphql, boundActionCreators }) => {
 
 [circleci-badge]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image.svg?style=shield
 [circleci-link]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image
-[codeclimate]: https://api.codeclimate.com/v1/badges/4488634e45e84d3cbdbe/maintainability
 [codeclimate 2]: https://codeclimate.com/github/jessestuart/gatsby-source-s3-image/maintainability
-[codecov]: https://codecov.io/gh/jessestuart/gatsby-source-s3-image/branch/master/graph/badge.svg
+[codeclimate]: https://api.codeclimate.com/v1/badges/4488634e45e84d3cbdbe/maintainability
 [codecov 2]: https://codecov.io/gh/jessestuart/gatsby-source-s3-image
+[codecov]: https://codecov.io/gh/jessestuart/gatsby-source-s3-image/branch/master/graph/badge.svg
+[min]: https://min.io
 [npm-badge]: https://img.shields.io/npm/v/gatsby-source-s3-image.svg
 [npm-link]: https://www.npmjs.com/package/gatsby-source-s3-image
