@@ -9,9 +9,7 @@ import fixtures from './fixtures.json'
 const mockStore = configureMockStore()
 
 // Mock out Gatby's source-filesystem API.
-sourceFilesystem.createRemoteFileNode = jest.fn().mockImplementation(node => {
-  console.log({ node })
-})
+sourceFilesystem.createRemoteFileNode = jest.fn()
 
 // Mock out `aws-sdk` module to prevent unnecessary calls to S3 during testing.
 jest.mock('aws-sdk', () => ({
@@ -29,7 +27,6 @@ describe('source S3ImageAsset nodes', () => {
   let nodes = {}
 
   beforeEach(() => {
-    spyOn(sourceFilesystem, 'createRemoteFileNode')
     args = {
       actions: {
         createNode: jest.fn(node => (nodes[node.id] = node)),
@@ -39,10 +36,7 @@ describe('source S3ImageAsset nodes', () => {
         set: jest.fn(),
       },
       createContentDigest: jest.fn(),
-      createNodeId: jest.fn().mockImplementation(node => {
-        console.log('create node ID', { node })
-        return node
-      }),
+      createNodeId: jest.fn(),
       store: mockStore,
     }
     Mitm().on('request', () => {
@@ -51,15 +45,6 @@ describe('source S3ImageAsset nodes', () => {
   })
 
   test('sourceNodes', async () => {
-    // NB: pulls from fixtures defined above, not S3 API.
-    const entityNodes = await sourceNodes(args, { bucketName: 'fake-bucket' })
-    // `createRemoteFileNode` called once for each of the five images in fixtures.
-    expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(5)
-    // 5 images + 2 directories = 7 nodes
-    expect(entityNodes).toHaveLength(7)
-  })
-
-  test('createS3ImageAssetNode', async () => {
     // NB: pulls from fixtures defined above, not S3 API.
     const entityNodes = await sourceNodes(args, { bucketName: 'fake-bucket' })
     // `createRemoteFileNode` called once for each of the five images in fixtures.

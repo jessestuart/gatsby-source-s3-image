@@ -1,4 +1,16 @@
-## gatsby-source-s3-image
+<p align="center">
+  <a href="https://gatsbyjs.org">
+    <img src="./assets/logo.svg" width="100" />
+  </a>
+</p>
+<h1 align="center">
+  gatsby-source-s3-image
+</h1>
+
+[![CircleCI][circleci-badge]][circleci-link]
+[![npm][npm-badge]][npm-link]
+[![Maintainability][codeclimate]][codeclimate 2]
+[![codecov][codecov]][codecov 2]
 
 GatsbyJS Source plugin for **converting images from an S3-compliant API[1] into
 GatsbyJS nodes** (with full support for hooking into all of the powerful
