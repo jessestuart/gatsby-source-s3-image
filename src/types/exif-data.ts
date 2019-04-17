@@ -1,5 +1,3 @@
-/* @flow */
-
 /**
  * ExifData persists the exif data parsed from an image binary
  * within Gatsby's GraphQL data layer. These fields can then be
@@ -13,7 +11,7 @@
  *         id
  *         EXIF {
  *           DateCreatedISO
- *           FNumber
+ *           Fnumber
  *           // ...etc
  *         }
  *       }
@@ -37,7 +35,7 @@
  *         }
  *         EXIF {
  *           DateCreatedISO
- *           FNumber
+ *           Fnumber
  *           // ...etc
  *         }
  *       }
@@ -46,14 +44,14 @@
  * }
  * ```
  */
-export type ExifData = {
-  DateCreatedISO: String,
-  DateTimeOriginal: Number,
-  ExposureTime: Number,
-  FNumber: Number,
-  FocalLength: Number,
-  ISO: Number,
-  LensModel: String,
-  Model: String,
-  ShutterSpeedValue: Number,
+export default interface ExifData {
+  DateCreatedISO?: string
+  DateTimeOriginal?: number
+  ExposureTime?: number
+  FNumber?: number
+  FocalLength?: number
+  ISO?: number
+  LensModel?: string
+  Model?: string
+  ShutterSpeedValue?: number
 }

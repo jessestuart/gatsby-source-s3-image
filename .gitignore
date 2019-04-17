@@ -1,5 +1,10 @@
 !*.config.js
+**/*.d.ts
+**/*.map
 /*.js
-/types/*.js
-node_modules
-yarn.lock
+/coverage/
+/dist/
+/node_modules/
+/types/
+report*
+tags*

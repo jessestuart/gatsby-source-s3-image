@@ -1,37 +1,35 @@
 {
   "name": "gatsby-source-s3-image",
   "description": "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
-  "version": "0.2.133",
+  "version": "0.2.132",
   "author": "Jesse Stuart <hi@jessestuart.com>",
-  "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
-  },
   "dependencies": {
+    "@babel/runtime": "7.4.3",
     "aws-sdk": "2.438.0",
     "bluebird": "3.5.4",
+    "exif-parser": "0.1.12",
     "lodash": "4.17.11",
-    "luxon": "1.12.1"
+    "luxon": "1.12.1",
+    "mime-types": "2.1.22"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
     "@babel/core": "7.4.3",
-    "@babel/plugin-proposal-object-rest-spread": "7.4.3",
-    "@babel/plugin-transform-async-to-generator": "7.4.0",
-    "@babel/plugin-transform-flow-strip-types": "7.4.0",
-    "@babel/plugin-transform-runtime": "7.4.3",
-    "@babel/polyfill": "7.4.3",
-    "@babel/preset-env": "7.4.3",
-    "@babel/preset-flow": "7.0.0",
-    "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "7.3.3",
     "@semantic-release/git": "7.0.8",
-    "babel-eslint": "10.0.1",
-    "babel-jest": "23.6.0",
+    "@types/bluebird": "3.5.26",
+    "@types/jest": "24.0.11",
+    "@types/lodash": "4.14.123",
+    "@types/node": "11.13.4",
+    "@typescript-eslint/eslint-plugin": "1.6.0",
+    "@typescript-eslint/parser": "1.6.0",
+    "babel-jest": "24.7.1",
     "babel-plugin-add-module-exports": "1.0.0",
     "babel-plugin-lodash": "3.3.4",
-    "eslint-config-prettier": "3.6.0",
+    "babel-preset-gatsby-package": "0.1.4",
+    "codecov": "3.3.0",
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "4.1.0",
     "eslint-config-standard": "12.0.0",
     "eslint-friendly-formatter": "4.0.1",
     "eslint-loader": "2.1.2",
@@ -41,10 +39,21 @@
     "eslint-plugin-promise": "4.1.1",
     "eslint-plugin-react": "7.12.4",
     "eslint-plugin-standard": "4.0.0",
+    "gatsby-source-filesystem": "2.0.27",
+    "jest": "24.7.1",
+    "jest-junit": "6.3.0",
+    "json-stringify-pretty-compact": "2.0.0",
+    "mitm": "1.7.0",
+    "nodemon": "1.18.11",
     "prettier": "1.17.0",
     "prettier-eslint": "8.8.2",
-    "semantic-release": "15.13.3"
+    "redux": "4.0.1",
+    "redux-mock-store": "1.5.3",
+    "semantic-release": "15.13.3",
+    "ts-jest": "24.0.2",
+    "typescript": "3.4.3"
   },
+  "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "keywords": [
     "exif",
     "gatsby",
@@ -54,11 +63,23 @@
     "s3"
   ],
   "license": "MIT",
+  "main": "index.js",
+  "peerDependencies": {
+    "gatsby": "^2",
+    "gatsby-image": "^2",
+    "gatsby-source-filesystem": "^2",
+    "react": "^16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessestuart/gatsby-source-s3-image"
+  },
   "scripts": {
-    "build": "babel src --out-dir . --ignore __tests__",
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --quiet --ext .js ./src",
+    "build": "tsc",
+    "lint": "eslint src/** --ext ts,tsx",
     "prepublishOnly": "yarn build",
     "semantic-release": "yarn build && semantic-release",
+    "test": "jest",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
   }

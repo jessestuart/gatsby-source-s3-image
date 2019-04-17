@@ -1,20 +1,14 @@
 module.exports = {
-  extends: [
-    'standard',
-    'plugin:react/recommended',
-    'prettier',
-    'prettier/flowtype',
-    'prettier/react',
-    'prettier/standard',
-  ],
-  parser: 'babel-eslint',
+  extends: ['prettier', 'plugin:@typescript-eslint/recommended'],
+  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
     es6: true,
+    jasmine: true,
     jest: true,
     node: true,
   },
-  plugins: ['react'],
+  plugins: ['@typescript-eslint'],
   globals: {
     __PATH_PREFIX__: true,
     graphql: false,
@@ -27,9 +21,16 @@ module.exports = {
     },
   },
   rules: {
-    'no-console': 'warn',
-    'no-debugger': 'off',
-    'react/prop-types': 'warn',
-    'react/no-unescaped-entities': 'off',
+    semi: ['error', 'never'],
+    '@typescript-eslint/camelcase': ['off'],
+    '@typescript-eslint/explicit-function-return-type': ['off'],
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      { multiline: { delimiter: 'none' } },
+    ],
+    '@typescript-eslint/no-non-null-assertion': ['off'],
+    '@typescript-eslint/no-use-before-define': ['off'],
+    '@typescript-eslint/no-var-requires': ['off'],
   },
 }

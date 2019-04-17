@@ -1,21 +1,20 @@
-/* @flow */
-import type { ExifData } from './types/exif-data'
-import type { S3ImageAssetNode } from './types/s3-image-asset-node'
+import { DateTime } from 'luxon'
+import _ from 'lodash'
+import exif from 'exif-parser'
 
-const Promise = require('bluebird')
-const fs = require('fs')
+import fs from 'fs'
+
+import ExifData from './types/exif-data'
+import S3ImageAssetNode from './types/s3-image-asset-node'
+
 const {
+  GraphQLFloat,
+  GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt,
-  GraphQLFloat,
-} = require('graphql')
-const exif = require('exif-parser')
-const DateTime = require('luxon').DateTime
-const _ = require('lodash')
+} = require('gatsby/graphql')
 
-const resolveExifData = (image: S3ImageAssetNode): ExifData => {
-  // $FlowFixMe
+export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = exif.create(file).parse().tags
   const timestamp = tags.DateTimeOriginal * 1000
@@ -35,23 +34,25 @@ const resolveExifData = (image: S3ImageAssetNode): ExifData => {
   }
 }
 
-type ExtendNodeTypeOptions = {
+interface ExtendNodeTypeOptions {
   type: {
-    name: String,
-  },
+    name: string
+  }
 }
 
-const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
+export default ({ type }: ExtendNodeTypeOptions): Promise<any> => {
   if (type.name !== 'S3ImageAsset') {
-    return {}
+    return Promise.resolve()
   }
 
   return Promise.resolve({
     ETag: { type: GraphQLString },
-    Key: { type: GraphQLString },
     EXIF: {
+      resolve: (image: S3ImageAssetNode) => ({
+        ...type,
+        ...resolveExifData(image),
+      }),
       type: new GraphQLObjectType({
-        name: 'ExifData',
         fields: {
           DateCreatedISO: { type: GraphQLString },
           DateTimeOriginal: { type: GraphQLInt },
@@ -63,17 +64,9 @@ const extendNodeType = ({ type }: ExtendNodeTypeOptions) => {
           Model: { type: GraphQLString },
           ShutterSpeedValue: { type: GraphQLFloat },
         },
+        name: 'ExifData',
       }),
-      resolve(image: S3ImageAssetNode) {
-        return {
-          ...type,
-          ...resolveExifData(image),
-        }
-      },
     },
+    Key: { type: GraphQLString },
   })
 }
-
-exports.extendNodeType = extendNodeType
-
-exports.resolveExifData = resolveExifData

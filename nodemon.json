@@ -1,0 +1,6 @@
+{
+  "exec": "yalc publish",
+  "ext": "ts",
+  "ignore": ["*.js", ".git/", "node_modules/"],
+  "watch": "src/"
+}
