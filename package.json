@@ -29,7 +29,7 @@
     "@semantic-release/git": "7.0.8",
     "babel-eslint": "10.0.1",
     "babel-jest": "23.6.0",
-    "babel-plugin-add-module-exports": "1.0.1",
+    "babel-plugin-add-module-exports": "1.0.0",
     "babel-plugin-lodash": "3.3.4",
     "eslint-config-prettier": "3.6.0",
     "eslint-config-standard": "12.0.0",
