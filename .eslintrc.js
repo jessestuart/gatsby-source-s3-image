@@ -23,6 +23,7 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     '@typescript-eslint/camelcase': ['off'],
+    '@typescript-eslint/explicit-function-return-type': ['off'],
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/member-delimiter-style': [
       'error',

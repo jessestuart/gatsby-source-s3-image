@@ -12,6 +12,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": ".",
+    "resolveJsonModule": true,
     "rootDir": "src",
     "sourceMap": true,
     "strictNullChecks": true,

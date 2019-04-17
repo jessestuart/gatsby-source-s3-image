@@ -1,0 +1,59 @@
+{
+  "IsTruncated": false,
+  "Contents": [
+    {
+      "Key": "2017-12-25/",
+      "LastModified": "2018-02-15T09:55:23.000Z",
+      "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2017-12-25/_DSC7589.jpg",
+      "LastModified": "2018-02-15T09:55:25.000Z",
+      "ETag": "\"8ed1dc689c7baeba0cf0196037ac70c0\"",
+      "Size": 900211,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/",
+      "LastModified": "2019-04-11T02:54:23.000Z",
+      "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC02621.jpg",
+      "LastModified": "2019-04-11T02:59:06.000Z",
+      "ETag": "\"921da2f4adcf76e0d02719bb2696cc58\"",
+      "Size": 15285486,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC02943.jpg",
+      "LastModified": "2019-04-11T02:54:39.000Z",
+      "ETag": "\"833816655f9709cb1b2b8ac9505a3c65\"",
+      "Size": 7275401,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC02943.jpg",
+      "LastModified": "2019-04-11T02:54:39.000Z",
+      "ETag": "\"833816659f9709cb1b2b8ac9505a3c65\"",
+      "Size": 7275401,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC02943.jpg",
+      "LastModified": "2019-04-11T02:54:39.000Z",
+      "ETag": "\"833816660f9709cb1b2b8ac9505a3c65\"",
+      "Size": 7275401,
+      "StorageClass": "STANDARD"
+    }
+  ],
+  "Name": "js-photos-dev",
+  "Prefix": "",
+  "MaxKeys": 1000,
+  "CommonPrefixes": [],
+  "KeyCount": 5
+}

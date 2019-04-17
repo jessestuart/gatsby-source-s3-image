@@ -55,14 +55,3 @@ export default interface ExifData {
   Model?: string
   ShutterSpeedValue?: number
 }
-
-export enum ExifFields {
-  DateTimeOriginal,
-  ExposureTime,
-  FNumber,
-  FocalLength,
-  ISO,
-  LensModel,
-  Model,
-  ShutterSpeedValue,
-}

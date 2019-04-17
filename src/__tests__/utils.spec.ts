@@ -1,4 +1,4 @@
-import { constructS3UrlForAsset, isImage } from './utils'
+import { constructS3UrlForAsset, isImage } from '../utils'
 
 describe('utils', () => {
   test('isImage', () => {
