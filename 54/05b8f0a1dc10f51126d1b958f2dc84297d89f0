@@ -1,0 +1,15 @@
+[ver:1,total:240]
+.gtm/terminal.app:180,1554757200:180,r
+.circleci/config.yml:60,1554757200:60,r
+
+[ver:1,total:120]
+.gtm/terminal.app:90,1554757200:90,r
+.circleci/config.yml:30,1554757200:30,m
+
+[ver:1,total:180]
+.gtm/terminal.app:120,1554757200:120,r
+package.json:60,1554757200:60,m
+
+[ver:1,total:480]
+.gtm/terminal.app:330,1554753600:210,1554757200:120,r
+package.json:150,1554753600:30,1554757200:120,m
