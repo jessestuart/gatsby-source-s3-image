@@ -10,7 +10,7 @@
     "exif-parser": "0.1.12",
     "lodash": "4.17.11",
     "luxon": "1.12.1",
-    "mime-types": "2.1.22"
+    "mime-types": "2.1.23"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
