@@ -82,5 +82,12 @@
     "test": "jest",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
-  }
+  },
+  "files": [
+    "gatsby-node.js",
+    "set-fields-on-graphql-node-type.js",
+    "source-nodes.js",
+    "utils.js",
+    "*.d.ts"
+  ]
 }

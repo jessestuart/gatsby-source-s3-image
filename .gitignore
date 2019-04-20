@@ -1,7 +1,10 @@
 !*.config.js
 **/*.d.ts
 **/*.map
+*.tgz
 /*.js
+/__tests__/*.js
+/__tests__/*.json
 /coverage/
 /dist/
 /node_modules/
