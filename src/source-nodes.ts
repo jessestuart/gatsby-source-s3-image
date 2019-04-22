@@ -1,8 +1,9 @@
-import AWS from 'aws-sdk';
-import { createRemoteFileNode } from 'gatsby-source-filesystem';
-import _ from 'lodash';
-import mime from 'mime-types';
-import { constructS3UrlForAsset, isImage } from './utils';
+import { createRemoteFileNode } from 'gatsby-source-filesystem'
+import AWS from 'aws-sdk'
+import _ from 'lodash'
+import mime from 'mime-types'
+
+import { constructS3UrlForAsset, isImage } from './utils'
 
 // =================
 // AWS config setup.
@@ -23,7 +24,8 @@ export interface SourceS3Options {
   // overridden to e.g., support CDN's (such as CloudFront),
   // or any other S3-compliant API (such as DigitalOcean
   // Spaces.)
-  domain?: string // Defaults to HTTP.
+  domain?: string
+  // Defaults to HTTP.
   protocol?: string
 }
 
@@ -81,7 +83,7 @@ export const sourceNodes = async (
           url,
         })
       } catch (err) {
-        Promise.reject(err)
+        Promise.reject(`Error create S3ImageAsset node: ${err}`)
       }
     })
   )
@@ -101,7 +103,9 @@ export const createS3ImageAssetNode = async ({
   url: string
 }): Promise<any> => {
   if (!fileNode) {
-    return Promise.reject()
+    return Promise.reject(
+      'File node must be defined when invoking `createS3ImageAssetNode`.'
+    )
   }
 
   const {
@@ -114,7 +118,7 @@ export const createS3ImageAssetNode = async ({
 
   return await createNode({
     ...entity,
-    absolutePath: absolutePath,
+    absolutePath,
     children: [fileNodeId],
     ETag: objectHash,
     id: createNodeId(objectHash),
