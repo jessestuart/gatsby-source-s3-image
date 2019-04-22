@@ -1,0 +1,10 @@
+[ver:1,total:480]
+.gtm/terminal.app:195,1555974000:195,r
+src/source-nodes.ts:135,1555974000:135,m
+src/__tests__/source-nodes.spec.ts:45,1555974000:45,m
+babel.config.js:40,1555974000:40,m
+package.json:15,1555974000:15,m
+.eslintrc.js:15,1555974000:15,r
+.prettierrc:15,1555974000:15,r
+types/exif-data.js:10,1555974000:10,d
+types/s3-image-asset-node.js:10,1555974000:10,d
