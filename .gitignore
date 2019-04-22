@@ -1,4 +1,4 @@
-!*.config.js
+# vim set ft=gitignore
 **/*.d.ts
 **/*.map
 *.tgz
@@ -11,3 +11,5 @@
 /types/
 report*
 tags*
+# ==========================================
+!*.config.js

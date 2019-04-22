@@ -1,9 +1,8 @@
-import { createRemoteFileNode } from 'gatsby-source-filesystem'
-import AWS from 'aws-sdk'
-import _ from 'lodash'
-import mime from 'mime-types'
-
-import { constructS3UrlForAsset, isImage } from './utils'
+import AWS from 'aws-sdk';
+import { createRemoteFileNode } from 'gatsby-source-filesystem';
+import _ from 'lodash';
+import mime from 'mime-types';
+import { constructS3UrlForAsset, isImage } from './utils';
 
 // =================
 // AWS config setup.
@@ -24,14 +23,13 @@ export interface SourceS3Options {
   // overridden to e.g., support CDN's (such as CloudFront),
   // or any other S3-compliant API (such as DigitalOcean
   // Spaces.)
-  domain?: string
-  // Defaults to HTTPS.
+  domain?: string // Defaults to HTTP.
   protocol?: string
 }
 
 export const sourceNodes = async (
   { actions, cache, createNodeId, store },
-  { bucketName, domain, protocol = 'https' }: SourceS3Options
+  { bucketName, domain, protocol = 'http' }: SourceS3Options
 ): Promise<any> => {
   const { createNode } = actions
 
@@ -97,7 +95,7 @@ export const createS3ImageAssetNode = async ({
   url,
 }: {
   createNode: Function
-  createNodeId: (any) => string
+  createNodeId: (node: any) => string
   entity: AWS.S3.Object
   fileNode: { absolutePath: string; id: string }
   url: string
@@ -106,17 +104,14 @@ export const createS3ImageAssetNode = async ({
     return Promise.reject()
   }
 
-  const { ETag, Key } = entity
-  // TODO: Use the `mime-types` lib to populate this dynamically.
-  // const ContentType = 'image/jpeg'
-  const mediaType = mime.lookup(entity.Key)
-  // Remove obnoxious escaped double quotes in S3 object's ETag. For reference:
-  // > The entity tag is a hash of the object. The ETag reflects changes only
-  // > to the contents of an object, not its metadata.
-  // @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html
-  const objectHash: string = ETag!.replace(/"/g, '')
-  const fileNodeId: string = _.get(fileNode, 'id')
-  const absolutePath: string = _.get(fileNode, 'absolutePath')
+  const {
+    absolutePath,
+    fileNodeId,
+    Key,
+    mediaType,
+    objectHash,
+  } = getEntityNodeFields({ entity, fileNode })
+
   return await createNode({
     ...entity,
     absolutePath: absolutePath,
@@ -132,4 +127,29 @@ export const createS3ImageAssetNode = async ({
       type: S3SourceGatsbyNodeType,
     },
   })
+}
+
+export const getEntityNodeFields = ({
+  entity,
+  fileNode,
+}: {
+  entity: any
+  fileNode: any
+}) => {
+  const { ETag, Key } = entity
+  const mediaType = mime.lookup(entity.Key)
+  // Remove obnoxious escaped double quotes in S3 object's ETag. For reference:
+  // > The entity tag is a hash of the object. The ETag reflects changes only
+  // > to the contents of an object, not its metadata.
+  // @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html
+  const objectHash: string = ETag!.replace(/"/g, '')
+  const fileNodeId: string = _.get(fileNode, 'id')
+  const absolutePath: string = _.get(fileNode, 'absolutePath')
+  return {
+    absolutePath,
+    fileNodeId,
+    Key,
+    mediaType,
+    objectHash,
+  }
 }
