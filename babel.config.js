@@ -1,6 +1,6 @@
 module.exports = {
   sourceRoot: 'src/',
-  ignore: ['./src/__tests__/*'],
+  ignore: ['./src/__tests__/*', './src/types/*'],
   presets: [
     [
       '@babel/preset-env',
