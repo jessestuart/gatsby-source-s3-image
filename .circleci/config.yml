@@ -98,4 +98,4 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: yarn semantic-release
+      - run: yarn release

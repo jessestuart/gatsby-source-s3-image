@@ -1,4 +1,6 @@
 module.exports = {
+  compact: true,
+  comments: false,
   sourceRoot: 'src/',
   ignore: ['./src/__tests__/*', './src/types/*'],
   presets: [
