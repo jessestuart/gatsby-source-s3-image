@@ -33,6 +33,7 @@ workflows:
 docker_image: &docker_image
   docker:
     - image: circleci/node:11
+  working_directory: /home/circleci/project/
 
 restore_cache: &restore_cache
   restore_cache:
@@ -78,11 +79,11 @@ jobs:
       - checkout
       - *restore_cache
       - run:
-          name: Run jest test suite.
-          command: yarn test --coverage
-      - run:
-          name: Upload coverage stats to Codecov.
-          command: yarn codecov -t $CODECOV_TOKEN
+          name: Run jest test suite & upload results.
+          command: |
+            yarn test --coverage
+            cat ./coverage/lcov.info | yarn codacy-coverage
+            yarn codecov
 
   build:
     <<: *docker_image

@@ -32,6 +32,7 @@
     "babel-plugin-lodash": "3.3.4",
     "babel-preset-gatsby-package": "0.1.4",
     "babel-preset-minify": "0.5.0",
+    "codacy-coverage": "3.4.0",
     "codecov": "3.3.0",
     "concurrently": "4.1.0",
     "core-js": "3.0.1",
@@ -87,7 +88,7 @@
     "lint": "eslint src/** --ext ts,tsx",
     "prepublishOnly": "yarn build",
     "release": "yarn build && semantic-release",
-    "test": "concurrently 'yarn check-types' 'yarn jest'",
+    "test": "concurrently 'yarn check-types' 'yarn jest --coverage'",
     "test:watch": "concurrently 'yarn tsc --watch' 'yarn jest --watch'",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
