@@ -1,0 +1,12 @@
+[ver:1,total:180]
+jest.config.js:135,1556082000:135,r
+.gtm/terminal.app:30,1556082000:30,r
+package.json:15,1556082000:15,m
+
+[ver:1,total:300]
+.gtm/terminal.app:155,1556082000:155,r
+.circleci/config.yml:145,1556082000:145,m
+
+[ver:1,total:660]
+.gtm/terminal.app:360,1556078400:360,r
+.circleci/config.yml:300,1556078400:300,m
