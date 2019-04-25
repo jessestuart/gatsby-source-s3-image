@@ -33,6 +33,7 @@ with this package:
   asset optimization thanks to `gatsby-image`, etc.
 - And to top things off — `gatsby-source-s3-image` will **automatically detect
   and extract image EXIF metadata from your photos**, and expose this data at
+  the GraphQL layer as node fields.
 
 ### Tell me more about this EXIF stuff.
 
@@ -141,7 +142,7 @@ interface S3ImageAssetNode {
   absolutePath: string
   ETag: string
   Key: string
-  EXIF: ?ExifData // ExifData is defined below -->
+  EXIF: ExifData | undefined // ExifData is defined below -->
   internal: {
     content: string
     contentDigest: string
@@ -168,20 +169,22 @@ bootstrapping the pages themselves, e.g., to programmatically create dynamic
 Photo Gallery pages at build time depending on the contents of a bucket. For
 example:
 
-```es6
+```typescript
 // In `gatsby-node.js` -- using a query like this:
-const photographyQuery = graphql`{
-  allS3ImageAsset {
-    edges {
-      node {
-        ETag
-        EXIF {
-          DateCreatedISO
+const photographyQuery = graphql`
+  {
+    allS3ImageAsset {
+      edges {
+        node {
+          ETag
+          EXIF {
+            DateCreatedISO
+          }
         }
       }
     }
   }
-}`
+`
 
 // We can then dynamically generate pages based on EXIF data, like this:
 const createPages = ({ actions }) => {
@@ -215,22 +218,17 @@ const createPages = ({ actions }) => {
 which required some breaking changes. The Gatsby V1-compatible version of the
 plugin is still fully functional, and will continue to receive maintenance
 updates as necessary. The last release compatible with Gatsby V1 can be found
-[here][github 3]
+[here][github 3].
 
-[circleci-badge]:
-  https://circleci.com/gh/jessestuart/gatsby-source-s3-image.svg?style=shield
+[circleci-badge]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image.svg?style=shield
 [circleci-link]: https://circleci.com/gh/jessestuart/gatsby-source-s3-image
-[codeclimate]:
-  https://api.codeclimate.com/v1/badges/4488634e45e84d3cbdbe/maintainability
-[codeclimate 2]:
-  https://codeclimate.com/github/jessestuart/gatsby-source-s3-image/maintainability
-[codecov]:
-  https://codecov.io/gh/jessestuart/gatsby-source-s3-image/branch/master/graph/badge.svg
+[codeclimate]: https://api.codeclimate.com/v1/badges/4488634e45e84d3cbdbe/maintainability
+[codeclimate 2]: https://codeclimate.com/github/jessestuart/gatsby-source-s3-image/maintainability
+[codecov]: https://codecov.io/gh/jessestuart/gatsby-source-s3-image/branch/master/graph/badge.svg
 [codecov 2]: https://codecov.io/gh/jessestuart/gatsby-source-s3-image
 [github]: https://github.com/gatsbyjs/gatsby
 [github 2]: https://github.com/jessestuart/gatsby-source-s3-image/pull/238
-[github 3]:
-  https://github.com/jessestuart/gatsby-source-s3-image/releases/tag/v0.2.133
+[github 3]: https://github.com/jessestuart/gatsby-source-s3-image/releases/tag/v0.2.133
 [min]: https://min.io
 [npm-badge]: https://img.shields.io/npm/v/gatsby-source-s3-image.svg
 [npm-link]: https://www.npmjs.com/package/gatsby-source-s3-image
