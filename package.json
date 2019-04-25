@@ -59,7 +59,7 @@
     "redux-mock-store": "1.5.3",
     "semantic-release": "15.13.3",
     "ts-jest": "24.0.2",
-    "typescript": "3.4.4"
+    "typescript": "3.4.5"
   },
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "keywords": [
