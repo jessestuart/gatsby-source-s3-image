@@ -13,6 +13,8 @@
 
 ## What is this?
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b101122b940646498d65180830218aa5)](https://app.codacy.com/app/jessestuart/gatsby-source-s3-image?utm_source=github.com&utm_medium=referral&utm_content=jessestuart/gatsby-source-s3-image&utm_campaign=Badge_Grade_Settings)
+
 `gatsby-source-s3-image` is a [GatsbyJS][github] _Source_ plugin for
 **converting images from any S3-compliant API[1] into GatsbyJS nodes**.
 
