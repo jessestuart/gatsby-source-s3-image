@@ -49,7 +49,7 @@
     "eslint-plugin-standard": "4.0.0",
     "gatsby-source-filesystem": "2.0.32",
     "jest": "24.7.1",
-    "jest-junit": "6.3.0",
+    "jest-junit": "6.4.0",
     "json-stringify-pretty-compact": "2.0.0",
     "mitm": "1.7.0",
     "nodemon": "1.19.0",
