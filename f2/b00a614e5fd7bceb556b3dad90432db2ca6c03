@@ -1,0 +1,11 @@
+[ver:1,total:240]
+.gtm/terminal.app:180,1556913600:150,1556917200:30,r
+.git/COMMIT_EDITMSG:30,1556917200:30,r
+.git/rebase-merge/git-rebase-todo:30,1556913600:30,r
+
+[ver:1,total:780]
+.gtm/terminal.app:570,1556913600:570,r
+tsconfig.json:85,1556913600:85,m
+package.json:65,1556913600:65,m
+src/__tests__/source-nodes.spec.ts:30,1556913600:30,r
+src/source-nodes.ts:30,1556913600:30,r
