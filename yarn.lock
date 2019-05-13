@@ -1287,10 +1287,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.126.tgz#47cff3ea014aa083194f8ca3ec351136c3786613"
   integrity sha512-HxQ+wQnBtnL0LszZrVdMqWIlzZNyKuMLUb6swQ3mo6ysPqpAu7gfnapCQIi0B+Mrf0fNLZh8AWgJs2njejVasg==
 
-"@types/luxon@1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.12.0.tgz#acf14294d18e6eba427a5e5d7dfce0f5cd2a9400"
-  integrity sha512-+UzPmwHSEEyv7aGlNkVpuFxp/BirXgl8NnPGCtmyx2KXIzAapoW3IqSVk87/Z3PUk8vEL8Pe1HXEMJbNBOQgtg==
+"@types/luxon@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.13.0.tgz#e92338702d0b1b96e8d5ea6fe39d9938891aacd0"
+  integrity sha512-XmDiRVoJWgVdqX9x1a/GU4p9bSgZY7q8SOyMLs3fx1AdQcxLYAPIt/jfZm2e+PBVRWuEx1FqYNJ37kBZ53TMqA==
 
 "@types/mime-types@2.1.0":
   version "2.1.0"
