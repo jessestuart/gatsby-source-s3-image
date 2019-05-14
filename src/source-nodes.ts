@@ -4,6 +4,7 @@ import _ from 'lodash'
 import mime from 'mime-types'
 
 import { constructS3UrlForAsset, isImage } from './utils'
+import EntityNodeFields from './types/EntityNodeFields'
 
 // =================
 // AWS config setup.
@@ -13,7 +14,7 @@ const S3Instance = new AWS.S3({ apiVersion: '2006-03-01' })
 // =========================
 // Plugin-specific constants.
 // =========================
-export const S3SourceGatsbyNodeType = 'S3ImageAsset'
+export const GatsbySourceS3NodeType = 'S3ImageAsset'
 
 // =================
 // Type definitions.
@@ -83,7 +84,7 @@ export const sourceNodes = async (
           url,
         })
       } catch (err) {
-        Promise.reject(`Error create S3ImageAsset node: ${err}`)
+        Promise.reject(`Error creating S3ImageAsset node: ${err}`)
       }
     })
   )
@@ -108,13 +109,18 @@ export const createS3ImageAssetNode = async ({
     )
   }
 
+  const entityNodeFields = getEntityNodeFields({ entity, fileNode })
+  if (!entityNodeFields) {
+    return Promise.reject('Unable to parse Entity node fields.')
+  }
+
   const {
     absolutePath,
     fileNodeId,
     Key,
     mediaType,
     objectHash,
-  } = getEntityNodeFields({ entity, fileNode })
+  } = entityNodeFields
 
   return await createNode({
     ...entity,
@@ -128,7 +134,7 @@ export const createS3ImageAssetNode = async ({
       content: url,
       contentDigest: objectHash,
       mediaType,
-      type: S3SourceGatsbyNodeType,
+      type: GatsbySourceS3NodeType,
     },
   })
 }
@@ -137,11 +143,14 @@ export const getEntityNodeFields = ({
   entity,
   fileNode,
 }: {
-  entity: any
-  fileNode: any
-}) => {
+  entity: AWS.S3.Object
+  fileNode: { absolutePath: string }
+}): EntityNodeFields | null => {
   const { ETag, Key } = entity
-  const mediaType = mime.lookup(entity.Key)
+  if (!Key) {
+    return null
+  }
+  const mediaType: string = mime.lookup(Key) || ''
   // Remove obnoxious escaped double quotes in S3 object's ETag. For reference:
   // > The entity tag is a hash of the object. The ETag reflects changes only
   // > to the contents of an object, not its metadata.

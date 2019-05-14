@@ -1,46 +1,35 @@
 import { DateTime } from 'luxon'
-import _ from 'lodash'
-import exif from 'exif-parser'
-
-import fs from 'fs'
-
-import ExifData from './types/exif-data'
-import S3ImageAssetNode from './types/s3-image-asset-node'
-
-const {
+import { ExifParserFactory } from 'ts-exif-parser'
+import {
   GraphQLFloat,
   GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-} = require('gatsby/graphql')
+} from 'gatsby/graphql'
+import _ from 'lodash'
 
-export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
+import fs from 'fs'
+
+import ExifData, { ExifDataKeys } from './types/ExifData'
+import S3ImageAssetNode from './types/S3ImageAssetNode'
+
+export const resolveExifData = (image: S3ImageAssetNode): ExifData | null => {
   const file = fs.readFileSync(image.absolutePath)
-  const tags = exif.create(file).parse().tags
-  const timestamp = tags.DateTimeOriginal * 1000
-  const DateCreatedISO = DateTime.fromMillis(timestamp).toISODate()
+  const tags = ExifParserFactory.create(file).parse().tags
+  // Return early if `DateTimeOriginal` isn't defined on Exif tags -- we'll
+  // need this later on.
+  if (!tags || !tags.DateTimeOriginal) {
+    return null
+  }
+
+  const DateCreatedISO = DateTime.fromSeconds(tags.DateTimeOriginal).toISODate()
   return {
     DateCreatedISO,
-    ..._.pick(tags, [
-      'DateTimeOriginal',
-      'ExposureTime',
-      'FNumber',
-      'FocalLength',
-      'ISO',
-      'LensModel',
-      'Model',
-      'ShutterSpeedValue',
-    ]),
+    ..._.pick(tags, ExifDataKeys),
   }
 }
 
-interface ExtendNodeTypeOptions {
-  type: {
-    name: string
-  }
-}
-
-export default ({ type }: ExtendNodeTypeOptions): Promise<any> => {
+export const setFieldsOnGraphQLNodeType = ({ type }): Promise<any> => {
   if (type.name !== 'S3ImageAsset') {
     return Promise.resolve()
   }

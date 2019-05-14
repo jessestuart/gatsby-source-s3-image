@@ -4,5 +4,15 @@ module.exports = {
   sourceRoot: 'src/',
   ignore: ['./src/__tests__/*', './src/types/*'],
   presets: ['@babel/preset-env', '@babel/preset-typescript', 'minify'],
-  plugins: ['@babel/plugin-transform-runtime'],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    'lodash',
+    [
+      'module-resolver',
+      {
+        root: ['./src'],
+        extensions: ['.js', '.json', '.ts', '.tsx'],
+      },
+    ],
+  ],
 }

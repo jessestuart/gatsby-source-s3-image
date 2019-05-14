@@ -7,9 +7,11 @@
   gatsby-source-s3-image
 </h1>
 
+<p align="center">
 [![CircleCI][circleci-badge]][circleci-link] [![npm][npm-badge]][npm-link]
 [![Maintainability][codeclimate]][codeclimate 2]
 [![codecov][codecov]][codecov 2]
+</p>
 
 ## What is this?
 
@@ -32,13 +34,34 @@ with this package:
   bill as your CI server happily churns out builds, amiright?); automatic image
   asset optimization thanks to `gatsby-image`, etc.
 - And to top things off — `gatsby-source-s3-image` will **automatically detect
-  and extract image EXIF metadata from your photos**, and expose this data at
+  and extract image Exif metadata from your photos**, and expose this data at
   the GraphQL layer as node fields.
 
-### Tell me more about this EXIF stuff.
+### Tell me more about this Exif stuff.
 
-Currently supported EXIF fields that are automatically extracted when available
-include:
+Some quick background for those unfamiliar: Exif, or the ,"Exchangeable image
+file format" (officially styled as "Exif", and not "EXIF", which I find
+oddly frustrating) is a standard developed in the 90's to formalize how image
+metadata should be persisted in lossy image formats like JPEG.
+
+I think there's something kind of magical about Exif data. If you're coming
+from a software background, think of it kind of like `git blame` for
+photography. Imagine every photo you've ever admired: there are an incalculable
+number of conditions that came together in an instant to create that shot; time
+and place, of course (after all, photography is somewhat unique among the
+visual arts in that it's inextricably bound to the physical world), but also
+myriad other factors the photographer may intentionally manipulate to realize
+a certain vision. There's the usual suspects like shutter speed, aperture, ISO;
+not to mention the specifics of the hardware itself — camera model (...for
+example, is the sensor full frame, APS-C, micro four-thirds?), and the lens
+between the photographer and her subject (...prime or zoom, focal length,
+etc.). A photograph's Exif tags are like its mitochondrial DNA — you don't get
+the _full_ genealogy, but certainly enough to study its origins.
+
+### So what's currently supported?
+
+Currently supported Exif fields that are automatically extracted when
+available include:
 
 - `DateCreatedISO` (`string`)
 - `DateTimeOriginal` (`number`)
@@ -52,7 +75,7 @@ include:
 
 These fields are properties of the "wrapper" node, `S3ImageAsset`. This type
 composes the `ImageSharp` node, the `File` node representing the cached image on
-disk (fetched via the `RemoteFileNode` API), and lastly the extracted EXIF data.
+disk (fetched via the `RemoteFileNode` API), and lastly the extracted Exif data.
 As a result, you can easily retrieve both a set of images as well as any subset
 of their associated metadata in a single request — or just the metadata by
 itself, if that's all you need. For example:
@@ -64,7 +87,7 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          EXIF {
+          Exif {
             DateCreatedISO
             ExposureTime
             FNumber
@@ -118,7 +141,7 @@ const sourceS3 = {
   resolve: 'gatsby-source-s3-image',
   options: {
     bucketName: 'jesse.pics',
-    domain: null, // [optional] Not necessary to define for AWS S3; defaults to `s3.amazonaws.com`
+    domain: null, // [optional] Not necessary if using AWS S3; defaults to `s3.amazonaws.com`
     protocol: 'https', // [optional] Default to `https`.
   },
 }
@@ -142,7 +165,7 @@ interface S3ImageAssetNode {
   absolutePath: string
   ETag: string
   Key: string
-  EXIF: ExifData | undefined // ExifData is defined below -->
+  Exif: ExifData | undefined // ExifData is defined below -->
   internal: {
     content: string
     contentDigest: string
@@ -177,7 +200,7 @@ const photographyQuery = graphql`
       edges {
         node {
           ETag
-          EXIF {
+          Exif {
             DateCreatedISO
           }
         }
@@ -186,7 +209,7 @@ const photographyQuery = graphql`
   }
 `
 
-// We can then dynamically generate pages based on EXIF data, like this:
+// We can then dynamically generate pages based on Exif data, like this:
 const createPages = ({ actions }) => {
   const { createPage } = actions
   const photographyTemplate = path.resolve(
@@ -196,7 +219,7 @@ const createPages = ({ actions }) => {
   const createPhotographyPosts = edges => {
     // Create the photography "album" pages -- these are a collection of photos
     // grouped by ISO date.
-    const imagesGroupedByDate = _.groupBy(edges, 'node.EXIF.DateCreatedISO')
+    const imagesGroupedByDate = _.groupBy(edges, 'node.Exif.DateCreatedISO')
     _.each(imagesGroupedByDate, (images, date) => {
       createPage({
         path: `/photography/${date}`,

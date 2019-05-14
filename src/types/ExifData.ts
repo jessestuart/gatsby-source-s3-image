@@ -2,6 +2,7 @@
  * ExifData persists the exif data parsed from an image binary
  * within Gatsby's GraphQL data layer. These fields can then be
  * accessed directly via the S3ImageAsset node -- e.g.,
+ *
  * @example
  * ```graphql
  * {
@@ -11,7 +12,7 @@
  *         id
  *         EXIF {
  *           DateCreatedISO
- *           Fnumber
+ *           FNumber
  *           // ...etc
  *         }
  *       }
@@ -20,8 +21,7 @@
  * }
  * ```
  *
- * Note that you can also access the `ImageSharp` node as a child relation:
- * TODO: is this example correct?
+ * Note that you can also access the `ImageSharp` node itself as a child relation:
  * @example
  * ```graphql
  * {
@@ -29,7 +29,7 @@
  *     edges {
  *       node {
  *         id
- *         childImageSharp {
+ *         childrenFile {
  *           id
  *           // ...
  *         }
@@ -53,5 +53,18 @@ export default interface ExifData {
   ISO?: number
   LensModel?: string
   Model?: string
-  ShutterSpeedValue?: number
+  ShutterSpeedValue?: string
+  [propertyName: string]: any
 }
+
+export const ExifDataKeys = [
+  'DateCreatedISO',
+  'DateTimeOriginal',
+  'ExposureTime',
+  'FNumber',
+  'FocalLength',
+  'ISO',
+  'LensModel',
+  'Model',
+  'ShutterSpeedValue',
+]

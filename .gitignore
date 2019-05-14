@@ -5,9 +5,10 @@
 /*.js
 /__tests__/*.js
 /__tests__/*.json
-/coverage/
+**/coverage/**
 /dist/
 /node_modules/
 /types/
 report*
 tags*
+junit.xml
