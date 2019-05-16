@@ -4,7 +4,7 @@
   "version": "1.2.20",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
-    "aws-sdk": "2.456.0",
+    "aws-sdk": "2.457.0",
     "bluebird": "3.5.4",
     "exif-parser": "0.1.12",
     "lodash": "4.17.11",
