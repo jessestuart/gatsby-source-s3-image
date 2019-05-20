@@ -1,9 +1,19 @@
 {
-  "extends": [":base", ":automergeLinters"],
-  "labels": ["renovate"],
-  "prHourlyLimit": 0,
   "automerge": true,
+  "extends": [
+    "config:base",
+    "group:definitelyTyped",
+    "group:linters",
+    "group:jsTest",
+    "group:babelMonorepo",
+    ":automergeBranchPush",
+    ":semanticCommits",
+    ":rebaseStalePrs"
+  ],
+  "gitAuthor": "jesse-b0t",
+  "labels": ["renovate"],
   "major": {
     "automerge": false
-  }
+  },
+  "prHourlyLimit": 0
 }
