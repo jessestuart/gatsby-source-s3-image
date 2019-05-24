@@ -53,5 +53,5 @@ export default interface ExifData {
   ISO?: number
   LensModel?: string
   Model?: string
-  ShutterSpeedValue?: number
+  ShutterSpeedValue?: string
 }

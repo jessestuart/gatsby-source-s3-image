@@ -1,9 +1,7 @@
-import { DateTime } from 'luxon'
-import _ from 'lodash'
-import exif from 'exif-parser'
-
 import fs from 'fs'
-
+import _ from 'lodash'
+import { DateTime } from 'luxon'
+import { ExifParserFactory } from 'ts-exif-parser'
 import ExifData from './types/exif-data'
 import S3ImageAssetNode from './types/s3-image-asset-node'
 
@@ -14,11 +12,15 @@ const {
   GraphQLString,
 } = require('gatsby/graphql')
 
-export const resolveExifData = (image: S3ImageAssetNode): ExifData => {
+export const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
   const file = fs.readFileSync(image.absolutePath)
-  const tags = exif.create(file).parse().tags
-  const timestamp = tags.DateTimeOriginal * 1000
-  const DateCreatedISO = DateTime.fromMillis(timestamp).toISODate()
+  const tags = ExifParserFactory.create(file).parse().tags
+  const timestamp = _.get(tags, 'DateTimeOriginal')
+  if (!timestamp) {
+    return
+  }
+
+  const DateCreatedISO = DateTime.fromMillis(timestamp * 1000).toISODate()
   return {
     DateCreatedISO,
     ..._.pick(tags, [
