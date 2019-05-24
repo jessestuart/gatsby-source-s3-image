@@ -31,7 +31,6 @@ export const constructS3UrlForAsset = ({
   // If `domain` is not defined, we assume we're referring to AWS S3.
   // If it *is*, assume we're pointing to a third-party implementation of the
   // protocol (e.g., Minio, Digital Ocean Spaces, OpenStack Swift, etc).
-  //
   return domain && !_.includes(domain, 's3.amazonaws.com')
     ? `${protocol}://${domain}/${bucketName}/${key}`
     : `${protocol}://${bucketName}.s3.amazonaws.com/${key}`
