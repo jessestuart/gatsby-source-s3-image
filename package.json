@@ -18,7 +18,7 @@
     "@babel/preset-typescript": "7.3.3",
     "@babel/runtime": "7.4.5",
     "@semantic-release/git": "7.0.8",
-    "@types/bluebird": "3.5.26",
+    "@types/bluebird": "3.5.27",
     "@types/jest": "24.0.13",
     "@types/lodash": "4.14.132",
     "@types/luxon": "1.13.0",
