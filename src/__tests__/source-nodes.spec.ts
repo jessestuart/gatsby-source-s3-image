@@ -1,10 +1,8 @@
+import sourceFilesystem from 'gatsby-source-filesystem'
 import _ from 'lodash'
 import fp from 'lodash/fp'
-import sourceFilesystem from 'gatsby-source-filesystem'
-
 import Mitm from 'mitm'
 import configureMockStore from 'redux-mock-store'
-
 import { getEntityNodeFields, sourceNodes } from '../source-nodes'
 import fixtures from './fixtures.json'
 
@@ -26,6 +24,7 @@ describe('Source S3ImageAsset nodes.', () => {
   const sourceNodeArgs = {
     actions: {
       createNode: jest.fn(node => (nodes[node.id] = node)),
+      createParentChildLink: jest.fn(),
     },
     cache: {
       get: jest.fn(),

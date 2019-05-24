@@ -6,10 +6,10 @@
   "dependencies": {
     "aws-sdk": "2.462.0",
     "bluebird": "3.5.4",
-    "exif-parser": "0.1.12",
     "lodash": "4.17.11",
     "luxon": "1.15.0",
-    "mime-types": "2.1.24"
+    "mime-types": "2.1.24",
+    "ts-exif-parser": "0.1.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
