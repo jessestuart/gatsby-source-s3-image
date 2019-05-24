@@ -2,3 +2,7 @@
 .gtm/terminal.app:360,1558674000:360,r
 package.json:30,1558674000:30,m
 src/utils.ts:30,1558674000:30,m
+
+[ver:1,total:60]
+package.json:30,1558674000:30,m
+.gtm/terminal.app:30,1558674000:30,r
