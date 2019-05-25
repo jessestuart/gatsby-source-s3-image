@@ -32,7 +32,7 @@ workflows:
 # ====================
 docker_image: &docker_image
   docker:
-    - image: circleci/node:11
+    - image: circleci/node:12
   working_directory: /home/circleci/project/
 
 restore_cache: &restore_cache
