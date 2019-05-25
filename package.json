@@ -53,7 +53,7 @@
     "jest-junit": "6.4.0",
     "json-stringify-pretty-compact": "2.0.0",
     "mitm": "1.7.0",
-    "nodemon": "1.19.0",
+    "nodemon": "1.19.1",
     "prettier": "1.17.1",
     "prettier-eslint": "8.8.2",
     "redux": "4.0.1",
