@@ -54,7 +54,7 @@ export const sourceNodes = async (
     'Contents'
   )
   if (!s3Entities) {
-    return Promise.resolve()
+    return
   }
 
   return await Promise.all(
@@ -129,8 +129,6 @@ export const createS3ImageAssetNode = ({
   return createNode({
     ...entity,
     absolutePath,
-    children: [fileNodeId],
-    // children: [],
     ETag: objectHash,
     id: createNodeId(objectHash),
     Key,
