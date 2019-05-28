@@ -2,8 +2,8 @@ import fs from 'fs'
 import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { ExifParserFactory } from 'ts-exif-parser'
-import ExifData from './types/exif-data'
-import S3ImageAssetNode from './types/s3-image-asset-node'
+import ExifData from './types/ExifData'
+import S3ImageAssetNode from './types/S3ImageAssetNode'
 
 const {
   GraphQLFloat,
@@ -12,10 +12,10 @@ const {
   GraphQLString,
 } = require('gatsby/graphql')
 
-export const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
+const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = ExifParserFactory.create(file).parse().tags
-  const timestamp = _.get(tags, 'DateTimeOriginal')
+  const timestamp: number | undefined = _.get(tags, 'DateTimeOriginal')
   if (!timestamp) {
     return
   }
@@ -25,6 +25,7 @@ export const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined =
     DateCreatedISO,
     ..._.pick(tags, [
       'DateTimeOriginal',
+      'Exposure',
       'ExposureTime',
       'FNumber',
       'FocalLength',
@@ -58,6 +59,7 @@ export default ({ type }: ExtendNodeTypeOptions): Promise<any> => {
         fields: {
           DateCreatedISO: { type: GraphQLString },
           DateTimeOriginal: { type: GraphQLInt },
+          Exposure: { type: GraphQLString },
           ExposureTime: { type: GraphQLFloat },
           FNumber: { type: GraphQLFloat },
           FocalLength: { type: GraphQLFloat },

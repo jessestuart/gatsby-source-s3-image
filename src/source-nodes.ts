@@ -1,7 +1,12 @@
-import AWS from 'aws-sdk'
-import { createRemoteFileNode } from 'gatsby-source-filesystem'
+import { S3 } from 'aws-sdk'
+import {
+  createRemoteFileNode,
+  CreateRemoteFileNodeArgs,
+  FileSystemNode,
+} from 'gatsby-source-filesystem'
 import _ from 'lodash'
 import mime from 'mime-types'
+
 import { constructS3UrlForAsset, isImage } from './utils'
 
 // =========================
@@ -13,8 +18,9 @@ export const S3SourceGatsbyNodeType = 'S3ImageAsset'
 // Type definitions.
 // =================
 export interface SourceS3Options {
-  accessKeyId?: string
-  secretAccessKey?: string
+  // Required params.
+  accessKeyId: string
+  secretAccessKey: string
   bucketName: string
   // Defaults to `${bucketName}.s3.amazonaws.com`, but may be overridden to
   // e.g., support CDN's (such as CloudFront), or any other S3-compliant API
@@ -36,7 +42,7 @@ export const sourceNodes = async (
 ): Promise<any> => {
   const { createNode } = actions
 
-  const S3Instance = new AWS.S3({
+  const S3Instance: S3 = new S3({
     accessKeyId,
     secretAccessKey,
     apiVersion: '2006-03-01',
@@ -45,57 +51,62 @@ export const sourceNodes = async (
     signatureVersion: 'v4',
   })
 
-  const listObjectsResponse: AWS.S3.ListObjectsV2Output = await S3Instance.listObjectsV2(
+  const listObjectsResponse: S3.ListObjectsV2Output = await S3Instance.listObjectsV2(
     { Bucket: bucketName }
   ).promise()
 
-  const s3Entities: AWS.S3.ObjectList | undefined = _.get(
+  const s3Entities: S3.ObjectList | undefined = _.get(
     listObjectsResponse,
     'Contents'
   )
-  if (!s3Entities) {
-    return
+  if (!s3Entities || _.isEmpty(s3Entities)) {
+    return []
   }
 
   return await Promise.all(
-    s3Entities.map(async (entity: AWS.S3.Object) => {
-      if (!isImage(entity)) {
-        return
-      }
-
-      const url: string | undefined = constructS3UrlForAsset({
-        bucketName,
-        domain,
-        key: entity.Key,
-        protocol,
-      })
-      if (!url) {
-        return
-      }
-
-      try {
-        const fileNode = await createRemoteFileNode({
-          cache,
-          createNode,
-          createNodeId,
-          store,
-          url,
-        })
-        if (!fileNode) {
+    _.compact(
+      s3Entities.map(async (entity: S3.Object) => {
+        if (!isImage(entity)) {
           return
         }
 
-        return await createS3ImageAssetNode({
-          createNode,
-          createNodeId,
-          entity,
-          fileNode,
-          url,
+        const url: string | undefined = constructS3UrlForAsset({
+          bucketName,
+          domain,
+          key: entity.Key,
+          protocol,
         })
-      } catch (err) {
-        Promise.reject(`Error creating S3ImageAsset node: ${err}`)
-      }
-    })
+        if (!url) {
+          return
+        }
+
+        try {
+          const createRemoteFileNodeArgs: CreateRemoteFileNodeArgs = {
+            cache,
+            createNode,
+            createNodeId,
+            store,
+            url,
+          }
+          const fileNode: FileSystemNode = await createRemoteFileNode(
+            createRemoteFileNodeArgs
+          )
+          if (!fileNode) {
+            return
+          }
+
+          return await createS3ImageAssetNode({
+            createNode,
+            createNodeId,
+            entity,
+            fileNode,
+            url,
+          })
+        } catch (err) {
+          Promise.reject(`Error creating S3ImageAsset node: ${err}`)
+        }
+      })
+    )
   )
 }
 
@@ -108,8 +119,8 @@ export const createS3ImageAssetNode = ({
 }: {
   createNode: Function
   createNodeId: (node: any) => string
-  entity: AWS.S3.Object
-  fileNode: { absolutePath: string; id: string }
+  entity: S3.Object
+  fileNode: FileSystemNode
   url: string
 }): Promise<any> => {
   if (!fileNode) {
@@ -146,8 +157,8 @@ export const getEntityNodeFields = ({
   entity,
   fileNode,
 }: {
-  entity: AWS.S3.Object
-  fileNode: any
+  entity: S3.Object
+  fileNode: FileSystemNode
 }) => {
   const { ETag, Key = '' } = entity
   const mediaType = mime.lookup(Key)

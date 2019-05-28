@@ -1,4 +1,4 @@
-import ExifData from './exif-data'
+import ExifData from './ExifData'
 
 /**
  * S3ImageAssetNode is a minimal wrapper composing the default Node

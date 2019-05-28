@@ -1,25 +1,25 @@
-import sourceFilesystem from 'gatsby-source-filesystem'
 import _ from 'lodash'
 import fp from 'lodash/fp'
+import sourceFilesystem, { FileSystemNode } from 'gatsby-source-filesystem'
+
+import * as Factory from 'factory.ts'
 import Mitm from 'mitm'
 import configureMockStore from 'redux-mock-store'
+
 import { getEntityNodeFields, sourceNodes } from '../source-nodes'
 import fixtures from './fixtures.json'
 
-// Mock out Gatby's source-filesystem API.
-sourceFilesystem.createRemoteFileNode = jest.fn().mockReturnValue({
-  id: 'remote-file-node-id',
-})
+const FileSystemNodeMock = Factory.Sync.makeFactory<FileSystemNode>({})
 
+const listObjectsMock = jest.fn()
 jest.mock('aws-sdk', () => ({
   S3: class {
-    public listObjectsV2 = () => ({ promise: () => fixtures })
+    public listObjectsV2 = listObjectsMock
   },
 }))
 
 describe('Source S3ImageAsset nodes.', () => {
   let nodes = {}
-  let mockStore = {}
 
   const sourceNodeArgs = {
     actions: {
@@ -32,12 +32,10 @@ describe('Source S3ImageAsset nodes.', () => {
     },
     createContentDigest: jest.fn(_.identity),
     createNodeId: jest.fn(_.identity),
-    store: mockStore,
+    store: {},
   }
 
   beforeAll(() => {
-    mockStore = configureMockStore()
-
     Mitm().on('request', req => {
       const host = _.get(req, 'headers.host')
       const url = _.get(req, 'url')
@@ -47,10 +45,24 @@ describe('Source S3ImageAsset nodes.', () => {
     })
   })
 
+  beforeEach(() => {
+    sourceNodeArgs.store = configureMockStore()
+    listObjectsMock.mockReset()
+    // Mock out Gatby's source-filesystem API.
+    sourceFilesystem.createRemoteFileNode = jest
+      .fn()
+      .mockReturnValue(FileSystemNodeMock.build())
+  })
+
   test('Verify sourceNodes creates the correct # of nodes, given our fixtures.', async () => {
+    listObjectsMock.mockReturnValueOnce({
+      promise: () => fixtures,
+    })
     // NB: pulls from fixtures defined above, not S3 API.
     const entityNodes = await sourceNodes(sourceNodeArgs, {
+      accessKeyId: 'fake-access-key',
       bucketName: 'fake-bucket',
+      secretAccessKey: 'secret-access-key',
     })
     // `createRemoteFileNode` called once for each of the five images in fixtures.
     expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(5)
@@ -64,14 +76,28 @@ describe('Source S3ImageAsset nodes.', () => {
     ).toStrictEqual(['S3ImageAsset'])
   })
 
+  test('Verify sourceNodes creates the correct # of nodes, given no fixtures.', async () => {
+    listObjectsMock.mockReturnValueOnce({ promise: () => [] })
+    // NB: pulls from fixtures defined above, not S3 API.
+    const entityNodes = await sourceNodes(sourceNodeArgs, {
+      accessKeyId: 'fake-access-key',
+      bucketName: 'fake-bucket',
+      secretAccessKey: 'secret-access-key',
+    })
+    expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(0)
+    expect(entityNodes).toHaveLength(0)
+  })
+
   test('Verify getEntityNodeFields utils func.', () => {
     const ETag = '"833816655f9709cb1b2b8ac9505a3c65"'
     const Key = '2019-04-10/DSC02943.jpg'
     const fileNodeId = 'file-node-id'
     const absolutePath = `/path/to/file/${Key}`
     const entity = { ETag, Key }
-    const fileNodeMock = { absolutePath, id: fileNodeId }
-    const nodeFields = getEntityNodeFields({ entity, fileNode: fileNodeMock })
+    const nodeFields = getEntityNodeFields({
+      entity,
+      fileNode: FileSystemNodeMock.build({ absolutePath, id: fileNodeId }),
+    })
 
     expect(nodeFields).toEqual({
       absolutePath,
