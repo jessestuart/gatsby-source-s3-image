@@ -6,7 +6,6 @@
   "dependencies": {
     "aws-sdk": "2.470.0",
     "bluebird": "3.5.5",
-    "exif-parser": "0.1.12",
     "lodash": "4.17.11",
     "luxon": "1.16.0",
     "mime-types": "2.1.24",
