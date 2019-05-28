@@ -1,8 +1,0 @@
-[ver:1,total:840]
-.gtm/terminal.app:534,1559890800:400,1559894400:134,r
-.git/PULLREQ_EDITMSG:110,1559890800:110,d
-src/__tests__/source-nodes.spec.ts:80,1559894400:80,m
-package.json:44,1559894400:44,m
-index.js:30,1559890800:30,m
-renovate.json:30,1559894400:30,r
-index.d.ts:12,1559894400:12,m
