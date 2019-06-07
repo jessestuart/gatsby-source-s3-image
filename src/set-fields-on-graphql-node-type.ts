@@ -1,18 +1,22 @@
-import fs from 'fs'
-import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { ExifParserFactory } from 'ts-exif-parser'
-import ExifData from './types/ExifData'
-import S3ImageAssetNode from './types/S3ImageAssetNode'
-
-const {
+import {
   GraphQLFloat,
   GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
-} = require('gatsby/graphql')
+} from 'gatsby/graphql'
+import _ from 'lodash'
+import fracty from 'fracty'
 
-const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
+import fs from 'fs'
+
+import ExifData from './types/ExifData'
+import S3ImageAssetNode from './types/S3ImageAssetNode'
+
+const resolveExifData = _.memoize((
+  image: S3ImageAssetNode // eslint-disable
+): ExifData | undefined => {
   const file = fs.readFileSync(image.absolutePath)
   const tags = ExifParserFactory.create(file).parse().tags
   const timestamp: number | undefined = _.get(tags, 'DateTimeOriginal')
@@ -20,9 +24,13 @@ const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
     return
   }
 
+  const ExposureTime = _.get(tags, 'ExposureTime')
+  const ShutterSpeedFraction = fracty(ExposureTime)
+
   const DateCreatedISO = DateTime.fromMillis(timestamp * 1000).toISODate()
   return {
     DateCreatedISO,
+    ShutterSpeedFraction,
     ..._.pick(tags, [
       'DateTimeOriginal',
       'Exposure',
@@ -35,7 +43,7 @@ const resolveExifData = (image: S3ImageAssetNode): ExifData | undefined => {
       'ShutterSpeedValue',
     ]),
   }
-}
+})
 
 interface ExtendNodeTypeOptions {
   type: {
