@@ -1,0 +1,13 @@
+[ver:1,total:5100]
+src/__tests__/source-nodes.spec.ts:1859,1559869200:1396,1559872800:463,m
+src/source-nodes.ts:1419,1559869200:314,1559872800:1105,m
+.gtm/terminal.app:1379,1559869200:997,1559872800:382,r
+src/types/GatsbyFileNode.ts:210,1559872800:210,m
+src/types/exif-data.ts:60,1559869200:60,d
+node_modules/gatsby-source-filesystem/index.d.ts:40,1559872800:40,r
+.circleci/config.yml:36,1559869200:36,m
+node_modules/aws-sdk/clients/s3.d.ts:30,1559869200:30,r
+src/types/s3-image-asset-node.ts:20,1559869200:20,d
+src/set-fields-on-graphql-node-type.ts:20,1559872800:20,m
+package/index.d.ts:15,1559869200:15,d
+package.json:12,1559869200:12,r
