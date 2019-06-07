@@ -11,3 +11,4 @@
 /types/
 report*
 tags*
+!index.d.ts

@@ -1,15 +1,16 @@
 {
   "name": "gatsby-source-s3-image",
   "description": "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
-  "version": "1.2.39",
+  "version": "2.1.0",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
     "aws-sdk": "2.470.0",
     "bluebird": "3.5.5",
-    "exif-parser": "0.1.12",
+    "fracty": "1.0.8",
     "lodash": "4.17.11",
     "luxon": "1.16.0",
-    "mime-types": "2.1.24"
+    "mime-types": "2.1.24",
+    "ts-exif-parser": "0.1.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
@@ -24,7 +25,7 @@
     "@types/luxon": "1.15.1",
     "@types/mime-types": "2.1.0",
     "@types/mitm": "1.3.2",
-    "@types/node": "11.13.13",
+    "@types/node": "12.0.7",
     "@types/redux-mock-store": "1.0.1",
     "@typescript-eslint/eslint-plugin": "1.9.0",
     "@typescript-eslint/parser": "1.9.0",
@@ -47,8 +48,9 @@
     "eslint-plugin-promise": "4.1.1",
     "eslint-plugin-react": "7.13.0",
     "eslint-plugin-standard": "4.0.0",
-    "gatsby": "2.5.7",
-    "gatsby-source-filesystem": "2.0.37",
+    "factory.ts": "0.5.0",
+    "gatsby": "2.8.5",
+    "gatsby-source-filesystem": "2.0.38",
     "jest": "24.8.0",
     "jest-junit": "6.4.0",
     "json-stringify-pretty-compact": "2.0.0",
@@ -62,6 +64,10 @@
     "ts-jest": "24.0.2",
     "typescript": "3.5.1"
   },
+  "resolutions": {
+    "@types/react": "16.8.19"
+  },
+  "files": ["*.js", "*.d.ts", "types/*"],
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "keywords": [
     "exif",
@@ -72,7 +78,6 @@
     "s3"
   ],
   "license": "MIT",
-  "main": "index.js",
   "peerDependencies": {
     "gatsby": "^2",
     "gatsby-image": "^2",
@@ -87,18 +92,13 @@
     "build": "babel --extensions '.ts' src/ --out-dir .",
     "check-types": "tsc",
     "lint": "eslint src/** --ext ts,tsx",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn build && yarn ts:defs && prettier --write index.d.ts",
     "release": "yarn build && semantic-release",
     "test": "concurrently 'yarn check-types' 'yarn jest --coverage'",
     "test:watch": "concurrently 'yarn tsc --watch' 'yarn jest --watch'",
+    "ts:defs": "tsc --declaration --emitDeclarationOnly",
     "update": "ncu -ua && yarn -s",
     "watch": "yarn build -w"
   },
-  "files": [
-    "gatsby-node.js",
-    "set-fields-on-graphql-node-type.js",
-    "source-nodes.js",
-    "utils.js",
-    "*.d.ts"
-  ]
+  "types": "./types/index.d.ts"
 }

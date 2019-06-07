@@ -18,13 +18,13 @@ export const isImage = (entity: S3.Object): boolean => {
 
 export const constructS3UrlForAsset = ({
   bucketName,
-  domain = '',
+  domain = 's3.amazonaws.com',
   key,
   protocol = 'https',
 }): string => {
   // Both `key` and either one of `bucketName` or `domain` are required.
-  const areParamsInvalid: boolean = !key || (!bucketName && !domain)
-  if (areParamsInvalid) {
+  const areParamsValid: boolean = key && (bucketName || domain)
+  if (!areParamsValid) {
     throw new Error('Unable to construct S3 URL for asset: invalid params.')
   }
 
