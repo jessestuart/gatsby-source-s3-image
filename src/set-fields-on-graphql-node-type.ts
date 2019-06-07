@@ -23,11 +23,11 @@ const resolveExifData = _.memoize((
   if (!timestamp) {
     return
   }
+  const DateCreatedISO = DateTime.fromMillis(timestamp * 1000).toISODate()
 
   const ExposureTime = _.get(tags, 'ExposureTime')
   const ShutterSpeedFraction = fracty(ExposureTime)
 
-  const DateCreatedISO = DateTime.fromMillis(timestamp * 1000).toISODate()
   return {
     DateCreatedISO,
     ShutterSpeedFraction,
@@ -74,6 +74,7 @@ export default ({ type }: ExtendNodeTypeOptions): Promise<any> => {
           ISO: { type: GraphQLInt },
           LensModel: { type: GraphQLString },
           Model: { type: GraphQLString },
+          ShutterSpeedFraction: { type: GraphQLString },
           ShutterSpeedValue: { type: GraphQLFloat },
         },
         name: 'ExifData',
