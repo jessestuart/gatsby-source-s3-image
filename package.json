@@ -4,7 +4,7 @@
   "version": "1.4.4",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
-    "aws-sdk": "2.473.0",
+    "aws-sdk": "2.474.0",
     "bluebird": "3.5.5",
     "fracty": "1.0.8",
     "lodash": "4.17.11",
