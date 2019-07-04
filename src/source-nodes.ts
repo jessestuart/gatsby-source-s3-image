@@ -31,7 +31,7 @@ export interface SourceS3Options {
 }
 
 export const sourceNodes = async (
-  { actions, cache, createNodeId, store },
+  { actions, cache, createNodeId, reporter, store },
   {
     accessKeyId,
     bucketName,
@@ -85,6 +85,7 @@ export const sourceNodes = async (
             cache,
             createNode,
             createNodeId,
+            reporter,
             store,
             url,
           }
