@@ -1,24 +1,20 @@
 import { S3 } from 'aws-sdk'
-import {
-  createRemoteFileNode,
-  CreateRemoteFileNodeArgs,
-  FileSystemNode,
-} from 'gatsby-source-filesystem'
 import _ from 'lodash'
-import mime from 'mime-types'
 
-import { constructS3UrlForAsset, isImage } from './utils'
+import { createRemoteFileNode, FileSystemNode } from 'gatsby-source-filesystem'
 
-// =========================
-// Plugin-specific constants.
-// =========================
-export const S3SourceGatsbyNodeType = 'S3ImageAsset'
+import {
+  constructS3UrlForAsset,
+  createS3ImageAssetNode,
+  createS3Instance,
+  isImage,
+} from './utils'
 
 // =================
 // Type definitions.
 // =================
 export interface SourceS3Options {
-  // Required params.
+  // NOTE: Required params.
   accessKeyId: string
   secretAccessKey: string
   bucketName: string
@@ -26,6 +22,7 @@ export interface SourceS3Options {
   // e.g., support CDN's (such as CloudFront), or any other S3-compliant API
   // (such as DigitalOcean Spaces.)
   domain?: string
+  region?: string
   // Defaults to HTTP.
   protocol?: string
 }
@@ -33,150 +30,71 @@ export interface SourceS3Options {
 export const sourceNodes = async (
   { actions, cache, createNodeId, reporter, store },
   {
+    // ================
     accessKeyId,
-    bucketName,
-    domain = 's3.amazonaws.com',
-    protocol = 'http',
     secretAccessKey,
+    bucketName,
+    // ================
+    domain = 's3.amazonaws.com',
+    region = 'us-east-1',
+    protocol = 'http',
   }: SourceS3Options
-): Promise<any> => {
+) => {
   const { createNode } = actions
 
-  const S3Instance: S3 = new S3({
-    accessKeyId,
-    secretAccessKey,
-    apiVersion: '2006-03-01',
-    endpoint: `${protocol}://${domain}`,
-    s3ForcePathStyle: true,
-    signatureVersion: 'v4',
-  })
+  const s3: S3 = createS3Instance({ accessKeyId, domain, secretAccessKey })
 
-  const listObjectsResponse: S3.ListObjectsV2Output = await S3Instance.listObjectsV2(
-    { Bucket: bucketName }
-  ).promise()
+  // prettier-ignore
+  const listObjectsResponse: S3.ListObjectsV2Output =
+    await s3.listObjectsV2({ Bucket: bucketName }).promise()
 
-  const s3Entities: S3.ObjectList | undefined = _.get(
-    listObjectsResponse,
-    'Contents'
-  )
-  if (!s3Entities || _.isEmpty(s3Entities)) {
+  const s3Entities: S3.ObjectList = _.get(listObjectsResponse, 'Contents', [])
+  if (_.isEmpty(s3Entities)) {
     return []
   }
 
-  return await Promise.all(
+  return Promise.all(
     _.compact(
       s3Entities.map(async (entity: S3.Object) => {
-        if (!isImage(entity)) {
+        const key = _.get(entity, 'Key')
+        if (!isImage(entity) || !key) {
           return
         }
 
         const url: string | undefined = constructS3UrlForAsset({
           bucketName,
           domain,
-          key: entity.Key,
+          key,
+          region,
           protocol,
         })
         if (!url) {
           return
         }
 
-        try {
-          const createRemoteFileNodeArgs: CreateRemoteFileNodeArgs = {
-            cache,
-            createNode,
-            createNodeId,
-            reporter,
-            store,
-            url,
-          }
-          const fileNode: FileSystemNode = await createRemoteFileNode(
-            createRemoteFileNodeArgs
-          )
-          if (!fileNode) {
-            return
-          }
+        const fileNode: FileSystemNode = await createRemoteFileNode({
+          cache,
+          createNode,
+          createNodeId,
+          reporter,
+          store,
+          url,
+        })
 
-          return await createS3ImageAssetNode({
-            createNode,
-            createNodeId,
-            entity,
-            fileNode,
-            url,
-          })
-        } catch (err) {
-          Promise.reject(`Error creating S3ImageAsset node: ${err}`)
+        if (!fileNode) {
+          return
         }
+
+        return createS3ImageAssetNode({
+          createNode,
+          createNodeId,
+          entity,
+          fileNode,
+          url,
+        })
       })
     )
   )
-}
-
-export const createS3ImageAssetNode = ({
-  createNode,
-  createNodeId,
-  entity,
-  fileNode,
-  url,
-}: {
-  createNode: Function
-  createNodeId: (node: any) => string
-  entity: S3.Object
-  fileNode: FileSystemNode
-  url: string
-}): Promise<any> => {
-  if (!fileNode) {
-    return Promise.reject(
-      'File node must be defined when invoking `createS3ImageAssetNode`.'
-    )
-  }
-
-  const {
-    absolutePath,
-    fileNodeId,
-    Key,
-    mediaType,
-    objectHash,
-  } = getEntityNodeFields({ entity, fileNode })
-
-  return createNode({
-    ...entity,
-    absolutePath,
-    ETag: objectHash,
-    id: createNodeId(objectHash),
-    Key,
-    parent: fileNodeId,
-    internal: {
-      content: url,
-      contentDigest: objectHash,
-      mediaType,
-      type: S3SourceGatsbyNodeType,
-    },
-  })
-}
-
-export const getEntityNodeFields = ({
-  entity,
-  fileNode,
-}: {
-  entity: S3.Object
-  fileNode: FileSystemNode
-}) => {
-  const { ETag, Key = '' } = entity
-  const mediaType = mime.lookup(Key)
-  // Remove obnoxious escaped double quotes in S3 object's ETag. For reference:
-  // > The entity tag is a hash of the object. The ETag reflects changes only
-  // > to the contents of an object, not its metadata.
-  // @see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html
-  const objectHash: string = ETag!.replace(/"/g, '')
-  const fileNodeId: string = _.get(fileNode, 'id')
-  const absolutePath: string = _.get(fileNode, 'absolutePath')
-  return {
-    absolutePath,
-    fileNodeId,
-    Key,
-    mediaType,
-    objectHash,
-  }
 }
 
 export default sourceNodes

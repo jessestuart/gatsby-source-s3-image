@@ -51,7 +51,7 @@ interface ExtendNodeTypeOptions {
   }
 }
 
-export default ({ type }: ExtendNodeTypeOptions): Promise<any> => {
+export default ({ type }: ExtendNodeTypeOptions) => {
   if (type.name !== 'S3ImageAsset') {
     return Promise.resolve()
   }
