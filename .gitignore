@@ -1,4 +1,5 @@
 # vim set ft=gitignore
+.cache/
 **/*.d.ts
 **/*.map
 *.tgz

@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import fp from 'lodash/fp'
-import sourceFilesystem, { FileSystemNode } from 'gatsby-source-filesystem'
 
 import * as Factory from 'factory.ts'
 import Mitm from 'mitm'
 import configureMockStore from 'redux-mock-store'
+import sourceFilesystem, { FileSystemNode } from 'gatsby-source-filesystem'
 
-import { getEntityNodeFields, sourceNodes } from '../source-nodes'
+import { sourceNodes } from '../source-nodes'
 import fixtures from './fixtures.json'
 
 const FileSystemNodeMock = Factory.Sync.makeFactory<FileSystemNode>({})
@@ -87,25 +87,5 @@ describe('Source S3ImageAsset nodes.', () => {
     })
     expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(0)
     expect(entityNodes).toHaveLength(0)
-  })
-
-  test('Verify getEntityNodeFields utils func.', () => {
-    const ETag = '"833816655f9709cb1b2b8ac9505a3c65"'
-    const Key = '2019-04-10/DSC02943.jpg'
-    const fileNodeId = 'file-node-id'
-    const absolutePath = `/path/to/file/${Key}`
-    const entity = { ETag, Key }
-    const nodeFields = getEntityNodeFields({
-      entity,
-      fileNode: FileSystemNodeMock.build({ absolutePath, id: fileNodeId }),
-    })
-
-    expect(nodeFields).toEqual({
-      absolutePath,
-      fileNodeId,
-      Key,
-      mediaType: 'image/jpeg',
-      objectHash: '833816655f9709cb1b2b8ac9505a3c65',
-    })
   })
 })
