@@ -8803,10 +8803,10 @@ ltcdr@^2.2.1:
   resolved "https://registry.yarnpkg.com/ltcdr/-/ltcdr-2.2.1.tgz#5ab87ad1d4c1dab8e8c08bbf037ee0c1902287cf"
   integrity sha1-Wrh60dTB2rjowIu/A37gwZAih88=
 
-luxon@1.16.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.16.1.tgz#62568d483989fa108f5c87178a05bcc707f7698b"
-  integrity sha512-3aYYMFpIRdEQJl00ki+NDr2zx/Ulf7ZgohBUb6ifZQuVkP8/KCYJluISl0YNbvZXBdzCbVhpQnS4M6Svjpn7EA==
+luxon@1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.17.0.tgz#b0f8e061c3253ce082e659d38a4b1624061f4063"
+  integrity sha512-aO26S9eTdQQnvSTCI2dHo9DBCTKjCTiDamQB+zJi+sAuGFSih5h45zfyDO8lcKk6JV0AkMsob5nLPGYIVzPGeA==
 
 macos-release@^2.2.0:
   version "2.3.0"
