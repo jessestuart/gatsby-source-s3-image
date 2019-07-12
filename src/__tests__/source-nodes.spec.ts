@@ -32,6 +32,7 @@ describe('Source S3ImageAsset nodes.', () => {
     },
     createContentDigest: jest.fn(_.identity),
     createNodeId: jest.fn(_.identity),
+    getNodes: jest.fn(),
     reporter: jest.fn(),
     store: {},
   }

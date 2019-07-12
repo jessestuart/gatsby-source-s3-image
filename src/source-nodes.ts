@@ -1,5 +1,6 @@
 import { S3 } from 'aws-sdk'
 import _ from 'lodash'
+import fp from 'lodash/fp'
 
 import { createRemoteFileNode, FileSystemNode } from 'gatsby-source-filesystem'
 
@@ -9,6 +10,7 @@ import {
   createS3Instance,
   isImage,
 } from './utils'
+import S3ImageAssetNode from './types/S3ImageAssetNode'
 
 // =================
 // Type definitions.
@@ -28,7 +30,7 @@ export interface SourceS3Options {
 }
 
 export const sourceNodes = async (
-  { actions, cache, createNodeId, reporter, store },
+  { actions, cache, createNodeId, getNodes, reporter, store },
   {
     // ================
     accessKeyId,
@@ -40,7 +42,16 @@ export const sourceNodes = async (
     protocol = 'http',
   }: SourceS3Options
 ) => {
-  const { createNode } = actions
+  const { createNode, touchNode } = actions
+  const cachedNodes: S3ImageAssetNode[] = _.filter(
+    getNodes(),
+    _.flow(
+      fp.get('internal.owner'),
+      fp.eq('gatsby-source-s3-image')
+    )
+  )
+
+  const nodesByKey = _.groupBy(cachedNodes, 'Key')
 
   const s3: S3 = createS3Instance({ accessKeyId, domain, secretAccessKey })
 
@@ -53,15 +64,30 @@ export const sourceNodes = async (
     return []
   }
 
+  const cachedEntities = _.filter(s3Entities, entity => {
+    const cachedEntity = _.first(nodesByKey[entity.Key as string])
+    if (cachedEntity && entity.LastModified) {
+      const cacheIsValid =
+        entity.LastModified.getTime() === cachedEntity.LastModified.getTime()
+      return cacheIsValid
+    }
+    return false
+  })
+
+  cachedEntities.forEach(entity => {
+    const cachedEntity = _.first(nodesByKey[entity.Key as string])
+    touchNode({ nodeId: _.get(cachedEntity, 'id') })
+  })
+
   return Promise.all(
     _.compact(
       s3Entities.map(async (entity: S3.Object) => {
         const key = _.get(entity, 'Key')
-        if (!isImage(entity) || !key) {
+        if (!key || !isImage(entity)) {
           return
         }
 
-        const url: string | undefined = constructS3UrlForAsset({
+        const url = constructS3UrlForAsset({
           bucketName,
           domain,
           key,
@@ -80,7 +106,6 @@ export const sourceNodes = async (
           store,
           url,
         })
-
         if (!fileNode) {
           return
         }
