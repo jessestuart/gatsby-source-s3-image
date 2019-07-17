@@ -14,9 +14,9 @@
     "ts-exif-parser": "0.1.4"
   },
   "devDependencies": {
-    "@babel/cli": "7.5.0",
-    "@babel/core": "7.5.4",
-    "@babel/plugin-transform-runtime": "7.5.0",
+    "@babel/cli": "7.5.5",
+    "@babel/core": "7.5.5",
+    "@babel/plugin-transform-runtime": "7.5.5",
     "@babel/preset-typescript": "7.3.3",
     "@semantic-release/git": "7.0.16",
     "@types/bluebird": "3.5.27",
