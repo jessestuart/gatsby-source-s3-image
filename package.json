@@ -8,7 +8,7 @@
     "bluebird": "3.5.5",
     "fracty": "1.0.8",
     "invariant": "2.2.4",
-    "lodash": "4.17.14",
+    "lodash": "4.17.15",
     "luxon": "1.17.1",
     "mime-types": "2.1.24",
     "ts-exif-parser": "0.1.4"
