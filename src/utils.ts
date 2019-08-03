@@ -78,12 +78,14 @@ export const constructS3UrlForAsset = ({
     s3,
     key,
     protocol = 'https',
+    expirySeconds = 60 * 5,
 }: {
         bucketName: string
         domain: string
         s3?: S3
         key: string
         protocol?: string
+        expirySeconds?: number
     }): string => {
     // Both `key` and either one of `bucketName` or `domain` are required.
     const areParamsValid = key && (bucketName || domain)
@@ -96,11 +98,10 @@ export const constructS3UrlForAsset = ({
     // protocol (e.g., Minio, Digital Ocean Spaces, OpenStack Swift, etc).
     const isAWS: boolean = _.includes(domain, 'amazonaws.com')
     if (isAWS) {
-        const signedUrlExpireSeconds = 60 * 5
         const url = s3.getSignedUrl('getObject', {
             Bucket: bucketName,
             Key: key,
-            Expires: signedUrlExpireSeconds
+            Expires: expirySeconds
         })
         return url
     } else {
