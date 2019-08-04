@@ -44,9 +44,9 @@ export const getEntityNodeFields = ({
   entity,
   fileNode,
 }: {
-    entity: S3.Object
-    fileNode: FileSystemNode
-  }): EntityNode => {
+  entity: S3.Object
+  fileNode: FileSystemNode
+}): EntityNode => {
   const { ETag, Key } = entity
   invariant(Key, 'Entity Key must be defined.')
   const mediaType = mime.lookup(Key!)
@@ -80,13 +80,13 @@ export const constructS3UrlForAsset = ({
   protocol = 'https',
   expirySeconds = 60 * 5,
 }: {
-    bucketName: string
-    domain: string
-    s3?: S3
-    key: string
-    protocol?: string
-    expirySeconds?: number
-  }): string => {
+  bucketName: string
+  domain: string
+  s3?: S3
+  key: string
+  protocol?: string
+  expirySeconds?: number
+}): string => {
   // Both `key` and either one of `bucketName` or `domain` are required.
   const areParamsValid = key && (bucketName || domain)
   if (!areParamsValid) {
@@ -116,12 +116,12 @@ export const createS3ImageAssetNode = ({
   fileNode,
   url,
 }: {
-    createNode: Function
-    createNodeId: (objectHash: string) => string
-    entity: S3.Object
-    fileNode: FileSystemNode
-    url: string
-  }) => {
+  createNode: Function
+  createNodeId: (objectHash: string) => string
+  entity: S3.Object
+  fileNode: FileSystemNode
+  url: string
+}) => {
   const {
     absolutePath,
     fileNodeId,
