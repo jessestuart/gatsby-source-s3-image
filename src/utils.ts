@@ -107,7 +107,6 @@ export const constructS3UrlForAsset = ({
   } else {
     return `${protocol}://${domain}/${bucketName}/${key}`
   }
-  return url
 }
 
 export const createS3ImageAssetNode = ({
