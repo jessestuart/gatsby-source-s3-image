@@ -57,7 +57,7 @@ As a result, you can easily retrieve both a set of images as well as any subset
 of their associated metadata in a single request — or just the metadata by
 itself, if that's all you need. For example:
 
-```es6
+```js
 export const pageQuery = graphql`
   query PhotographyPostsQuery {
     allS3ImageAsset {
@@ -103,7 +103,7 @@ export const pageQuery = graphql`
 
 Add the dependency to your `package.json`:
 
-```console
+```shell
 $ yarn add gatsby-source-s3-image
 $ # Or:
 $ npm install --save gatsby-source-s3-image
@@ -113,7 +113,7 @@ Next, register the plugin with the GatsbyJS runtime in the `plugins` field
 exported from your `gatsby-config.js` file, filling in the values to point to
 wherever your bucket is hosted:
 
-```es6
+```js
 const sourceS3 = {
   resolve: 'gatsby-source-s3-image',
   options: {
