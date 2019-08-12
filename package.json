@@ -50,7 +50,7 @@
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-standard": "4.0.0",
     "factory.ts": "0.5.0",
-    "gatsby": "2.13.59",
+    "gatsby": "2.13.60",
     "gatsby-source-filesystem": "2.1.9",
     "jest": "24.8.0",
     "jest-junit": "7.0.0",
