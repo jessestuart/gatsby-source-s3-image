@@ -1,7 +1,7 @@
 {
   "name": "gatsby-source-s3-image",
   "description": "GatsbyJS plugin to source images from S3-compliant APIs, with EXIF-extracting superpowers.",
-  "version": "1.6.45",
+  "version": "1.6.46",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
     "aws-sdk": "2.533.0",
