@@ -38,7 +38,7 @@
     "codacy-coverage": "3.4.0",
     "codecov": "3.6.1",
     "concurrently": "4.1.2",
-    "eslint": "6.4.0",
+    "eslint": "6.5.0",
     "eslint-config-prettier": "6.3.0",
     "eslint-config-standard": "13.0.1",
     "eslint-friendly-formatter": "4.0.1",
