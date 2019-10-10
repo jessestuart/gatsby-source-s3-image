@@ -14,8 +14,8 @@
     "ts-exif-parser": "0.1.4"
   },
   "devDependencies": {
-    "@babel/cli": "7.6.3",
-    "@babel/core": "7.6.3",
+    "@babel/cli": "7.6.4",
+    "@babel/core": "7.6.4",
     "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/preset-typescript": "7.6.0",
     "@semantic-release/git": "7.0.16",
