@@ -1751,10 +1751,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.1.tgz#d5544f6de0aae03eefbb63d5120f6c8be0691946"
   integrity sha512-rp7La3m845mSESCgsJePNL/JQyhkOJA6G4vcwvVgkDAwHhGdq5GCumxmPjEk1MZf+8p5ZQAUE7tqgQRQTXN7uQ==
 
-"@types/node@12.11.0":
-  version "12.11.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.0.tgz#7f893924970076b20ca0089df50ab9f171088909"
-  integrity sha512-7v0K9WHdjFpE3LMj1rdRan7PDO2d9Qky51T0cYzzk7fWoqoYKu/fZHnrF7OhNZVx0uKwYoQFMZ3dgVD51s/vYA==
+"@types/node@12.11.1":
+  version "12.11.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.1.tgz#1fd7b821f798b7fa29f667a1be8f3442bb8922a3"
+  integrity sha512-TJtwsqZ39pqcljJpajeoofYRfeZ7/I/OMUQ5pR4q5wOKf2ocrUvBAZUMhWsOvKx3dVc/aaV5GluBivt0sWqA5A==
 
 "@types/node@^7.0.11":
   version "7.10.6"
