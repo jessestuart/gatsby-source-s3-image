@@ -18,7 +18,7 @@
     "@babel/core": "7.6.4",
     "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/preset-typescript": "7.6.0",
-    "@semantic-release/git": "7.0.16",
+    "@semantic-release/git": "7.0.17",
     "@types/bluebird": "3.5.28",
     "@types/invariant": "2.2.30",
     "@types/jest": "24.0.20",
@@ -61,7 +61,7 @@
     "prettier-eslint": "9.0.0",
     "redux": "4.0.4",
     "redux-mock-store": "1.5.3",
-    "semantic-release": "15.13.27",
+    "semantic-release": "15.13.28",
     "ts-jest": "24.1.0",
     "typescript": "3.6.4"
   },
