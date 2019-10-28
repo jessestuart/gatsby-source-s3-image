@@ -63,8 +63,10 @@ describe('Source S3ImageAsset nodes.', () => {
     // NB: pulls from fixtures defined above, not S3 API.
     const entityNodes = await sourceNodes(sourceNodeArgs, {
       accessKeyId: 'fake-access-key',
-      bucketName: 'fake-bucket',
       secretAccessKey: 'secret-access-key',
+      awsS3Options: {
+        Bucket: 'fake-bucket',
+      },
     })
     // `createRemoteFileNode` called once for each of the five images in fixtures.
     expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(5)
@@ -83,8 +85,10 @@ describe('Source S3ImageAsset nodes.', () => {
     // NB: pulls from fixtures defined above, not S3 API.
     const entityNodes = await sourceNodes(sourceNodeArgs, {
       accessKeyId: 'fake-access-key',
-      bucketName: 'fake-bucket',
       secretAccessKey: 'secret-access-key',
+      awsS3Options: {
+        Bucket: 'fake-bucket',
+      },
     })
     expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(0)
     expect(entityNodes).toHaveLength(0)

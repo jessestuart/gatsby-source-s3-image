@@ -19,7 +19,7 @@ export interface SourceS3Options {
   // NOTE: Required params.
   accessKeyId: string
   secretAccessKey: string
-  bucketName: string
+  awsS3Options: S3.Types.ListObjectsV2Request
   // Defaults to `${bucketName}.s3.amazonaws.com`, but may be overridden to
   // e.g., support CDN's (such as CloudFront), or any other S3-compliant API
   // (such as DigitalOcean Spaces.)
@@ -35,7 +35,7 @@ export const sourceNodes = async (
     // ================
     accessKeyId,
     secretAccessKey,
-    bucketName,
+    awsS3Options,
     // ================
     domain = 's3.amazonaws.com',
     region = 'us-east-1',
@@ -57,7 +57,7 @@ export const sourceNodes = async (
 
   // prettier-ignore
   const listObjectsResponse: S3.ListObjectsV2Output =
-    await s3.listObjectsV2({ Bucket: bucketName }).promise()
+    await s3.listObjectsV2(awsS3Options).promise()
 
   const s3Entities: S3.ObjectList = _.get(listObjectsResponse, 'Contents', [])
   if (_.isEmpty(s3Entities)) {
@@ -88,7 +88,7 @@ export const sourceNodes = async (
         }
 
         const url = constructS3UrlForAsset({
-          bucketName,
+          bucketName: awsS3Options.Bucket,
           domain,
           key,
           region,
