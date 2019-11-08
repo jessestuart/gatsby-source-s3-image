@@ -4,7 +4,7 @@
   "version": "1.6.90",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
-    "aws-sdk": "2.567.0",
+    "aws-sdk": "2.568.0",
     "bluebird": "3.7.1",
     "fracty": "1.0.9",
     "invariant": "2.2.4",
