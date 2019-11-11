@@ -19,7 +19,7 @@
     "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/preset-typescript": "7.7.2",
     "@semantic-release/git": "7.0.18",
-    "@types/bluebird": "3.5.28",
+    "@types/bluebird": "3.5.29",
     "@types/invariant": "2.2.30",
     "@types/jest": "24.0.22",
     "@types/lodash": "4.14.146",
