@@ -3061,10 +3061,10 @@ babel-preset-fbjs@^3.1.2:
     "@babel/plugin-transform-template-literals" "^7.0.0"
     babel-plugin-syntax-trailing-function-commas "^7.0.0-beta.0"
 
-babel-preset-gatsby-package@0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.10.tgz#667a0f1df7075d4fcad2b0f61f11251591db2003"
-  integrity sha512-yjejicXNu8liF87zg3OtL9FO3p+//rKZYtr94pZakQBfKbuvCstDEl6bk6Hai4RQJC7vb/ZJwzw73uwQNzQGzg==
+babel-preset-gatsby-package@0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.11.tgz#3a8e193d7eeb5311a98e8e35f1f120849f2804d5"
+  integrity sha512-NEvQZWTTSp8mMIPX4C7SpAQZgI0NzR4nFccJgNCNbU2Pw3TIyVamboLQPmLJIZJAEGTURqomqPgKFAHR7nOMAw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.7.0"
     "@babel/plugin-proposal-optional-chaining" "^7.6.0"
@@ -3073,7 +3073,7 @@ babel-preset-gatsby-package@0.2.10:
     "@babel/preset-env" "^7.7.1"
     "@babel/preset-flow" "^7.0.0"
     "@babel/preset-react" "^7.7.0"
-    babel-plugin-dynamic-import-node "^1.2.0"
+    babel-plugin-dynamic-import-node "^2.3.0"
     core-js "^2.6.10"
 
 babel-preset-gatsby@^0.2.21:
