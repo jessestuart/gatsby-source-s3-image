@@ -47,9 +47,10 @@ export const getEntityNodeFields = ({
   entity: S3.Object
   fileNode: FileSystemNode
 }): EntityNode => {
+  console.log(entity)
   const { ETag, Key } = entity
   invariant(Key, 'Entity Key must be defined.')
-  const mediaType = mime.lookup(Key!)
+  const mediaType = mime.lookup(Key!) as string
   invariant(
     mediaType,
     `Unable to determine MIME media type for entity: ${entity.Key}`
@@ -66,7 +67,6 @@ export const getEntityNodeFields = ({
     absolutePath,
     fileNodeId,
     Key: Key!,
-    // @ts-ignore
     mediaType,
     objectHash,
   }
@@ -79,7 +79,7 @@ export const constructS3UrlForAsset = ({
   key,
   protocol = 'https',
 }: {
-  bucketName: string
+  bucketName?: string
   domain: string
   region?: string
   key: string
@@ -95,9 +95,15 @@ export const constructS3UrlForAsset = ({
   // If it *is*, assume we're pointing to a third-party implementation of the
   // protocol (e.g., Minio, Digital Ocean Spaces, OpenStack Swift, etc).
   const isAWS: boolean = _.includes(domain, 'amazonaws.com')
-  const url = isAWS
-    ? `${protocol}://${bucketName}.s3.${region}.amazonaws.com/${key}`
-    : `${protocol}://${domain}/${bucketName}/${key}`
+  let url: string
+  if (isAWS) {
+    url = `${protocol}://${bucketName}.s3.${region}.amazonaws.com/${key}`
+  } else {
+    url = `${protocol}://${domain}/${
+      _.isEmpty(bucketName) ? '' : bucketName + '/'
+    }${key}`
+  }
+  console.log({ url })
   return url
 }
 
@@ -111,7 +117,7 @@ export const createS3ImageAssetNode = ({
   createNode: Function
   createNodeId: (objectHash: string) => string
   entity: S3.Object
-  fileNode: FileSystemNode
+  fileNode: FileSystemNode | null
   url: string
 }) => {
   const {
