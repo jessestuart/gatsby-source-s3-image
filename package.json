@@ -5,7 +5,7 @@
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
     "aws-sdk": "2.580.0",
-    "bluebird": "3.7.1",
+    "bluebird": "3.7.2",
     "fracty": "1.0.9",
     "invariant": "2.2.4",
     "lodash": "4.17.15",
