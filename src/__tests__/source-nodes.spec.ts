@@ -19,7 +19,7 @@ jest.mock('aws-sdk', () => ({
 }))
 
 describe('Source S3ImageAsset nodes.', () => {
-  let nodes = {}
+  const nodes = {}
 
   const sourceNodeArgs = {
     actions: {
@@ -70,12 +70,9 @@ describe('Source S3ImageAsset nodes.', () => {
     expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(5)
     // 5 images + 2 directories = 7 nodes
     expect(entityNodes).toHaveLength(7)
-    expect(
-      _.flow(
-        fp.map('internal.type'),
-        fp.uniq
-      )(nodes)
-    ).toStrictEqual(['S3ImageAsset'])
+    expect(_.flow(fp.map('internal.type'), fp.uniq)(nodes)).toStrictEqual([
+      'S3ImageAsset',
+    ])
   })
 
   test('Verify sourceNodes creates the correct # of nodes, given no fixtures.', async () => {

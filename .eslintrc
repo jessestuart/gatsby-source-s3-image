@@ -21,7 +21,7 @@
     }
   },
   "rules": {
-    "semi": ["error", "never"],
+    "@typescript-eslint/ban-ts-ignore": ["warn"],
     "@typescript-eslint/camelcase": ["off"],
     "@typescript-eslint/explicit-function-return-type": ["off"],
     "@typescript-eslint/indent": ["error", 2],
@@ -31,6 +31,7 @@
     ],
     "@typescript-eslint/no-non-null-assertion": ["off"],
     "@typescript-eslint/no-use-before-define": ["off"],
-    "@typescript-eslint/no-var-requires": ["off"]
+    "@typescript-eslint/no-var-requires": ["off"],
+    "semi": ["error", "never"]
   }
 }
