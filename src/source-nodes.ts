@@ -1,10 +1,10 @@
 import { S3 } from 'aws-sdk'
-import { parseStringPromise } from 'xml2js'
 import _ from 'lodash'
 import fp from 'lodash/fp'
-import got from 'got'
 
 import { createRemoteFileNode, FileSystemNode } from 'gatsby-source-filesystem'
+import { parseStringPromise } from 'xml2js'
+import got from 'got'
 
 import {
   constructS3UrlForAsset,
@@ -124,21 +124,28 @@ export const sourceNodes = async (
           return
         }
 
-        let fileNode: FileSystemNode | null = null
-        if (!nodesByKey[key]) {
-          fileNode = await createRemoteFileNode({
-            cache,
-            createNode,
-            createNodeId,
-            reporter,
-            store,
-            url,
-          })
-        }
-        // if (!fileNode) {
-        //   return
+        // let fileNode: FileSystemNode | null = null
+        // if (!nodesByKey[key]) {
+        //   fileNode = await createRemoteFileNode({
+        //     cache,
+        //     createNode,
+        //     createNodeId,
+        //     reporter,
+        //     store,
+        //     url,
+        //   })
         // }
-        // console.log({ fileNode })
+        const fileNode: FileSystemNode = await createRemoteFileNode({
+          cache,
+          createNode,
+          createNodeId,
+          reporter,
+          store,
+          url,
+        })
+        if (!fileNode) {
+          return
+        }
 
         return createS3ImageAssetNode({
           createNode,

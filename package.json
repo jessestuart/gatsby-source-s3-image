@@ -63,11 +63,7 @@
     "ts-jest": "24.2.0",
     "typescript": "3.7.2"
   },
-  "files": [
-    "*.js",
-    "*.d.ts",
-    "types/*"
-  ],
+  "files": ["*.js", "*.d.ts", "types/*"],
   "homepage": "https://github.com/jessestuart/gatsby-source-s3-image#readme",
   "keywords": [
     "exif",

@@ -39,6 +39,7 @@ describe('utils', () => {
   test('constructS3UrlForAsset: invalid input', () => {
     expect(() => {
       // Invalid params -- `key` is required.
+      // eslint-disable-next-line
       // @ts-ignore
       constructS3UrlForAsset({
         bucketName: 'js-bucket',

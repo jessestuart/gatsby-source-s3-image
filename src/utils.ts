@@ -47,7 +47,6 @@ export const getEntityNodeFields = ({
   entity: S3.Object
   fileNode: FileSystemNode
 }): EntityNode => {
-  console.log(entity)
   const { ETag, Key } = entity
   invariant(Key, 'Entity Key must be defined.')
   const mediaType = mime.lookup(Key!) as string
@@ -103,7 +102,6 @@ export const constructS3UrlForAsset = ({
       _.isEmpty(bucketName) ? '' : bucketName + '/'
     }${key}`
   }
-  console.log({ url })
   return url
 }
 
@@ -117,7 +115,7 @@ export const createS3ImageAssetNode = ({
   createNode: Function
   createNodeId: (objectHash: string) => string
   entity: S3.Object
-  fileNode: FileSystemNode | null
+  fileNode: FileSystemNode
   url: string
 }) => {
   const {
