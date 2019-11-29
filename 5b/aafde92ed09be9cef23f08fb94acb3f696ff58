@@ -1,0 +1,8 @@
+[ver:1,total:1200]
+.gtm/terminal.app:684,1574974800:280,1574982000:180,1574989200:224,r
+src/source-nodes.ts:170,1574974800:130,1574989200:40,r
+src/utils.ts:130,1574974800:130,r
+package.json:76,1574989200:76,m
+src/__tests__/source-nodes.spec.ts:60,1574989200:60,m
+.eslintrc:60,1574989200:60,m
+tsconfig.json:20,1574989200:20,r
