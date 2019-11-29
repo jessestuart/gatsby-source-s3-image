@@ -1,0 +1,7 @@
+[ver:1,total:660]
+.gtm/terminal.app:390,1575007200:240,1575010800:150,r
+src/source-nodes.ts:100,1575010800:100,m
+node_modules/gatsby-source-filesystem/index.d.ts:60,1575010800:60,r
+package.json:50,1575007200:30,1575010800:20,m
+src/gatsby-node.ts:30,1575010800:30,r
+src/on-create-node.ts:30,1575007200:30,r
