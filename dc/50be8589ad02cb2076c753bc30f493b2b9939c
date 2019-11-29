@@ -5,3 +5,11 @@ node_modules/gatsby-source-filesystem/index.d.ts:60,1575010800:60,r
 package.json:50,1575007200:30,1575010800:20,m
 src/gatsby-node.ts:30,1575010800:30,r
 src/on-create-node.ts:30,1575007200:30,r
+
+[ver:1,total:1560]
+.gtm/terminal.app:985,1574989200:255,1574996400:630,1575007200:100,r
+src/__tests__/utils.spec.ts:270,1574989200:270,m
+src/source-nodes.ts:135,1574989200:135,m
+src/utils.ts:75,1574989200:75,m
+package.json:65,1574989200:45,1575007200:20,m
+babel.config.js:30,1574996400:30,r
