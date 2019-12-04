@@ -45,6 +45,8 @@ include:
 - `ExposureTime` (`number`)
 - `FNumber` (`number`)
 - `FocalLength` (`number`)
+- `GPSLatitude` (`number`)
+- `GPSLongitude` (`number`)
 - `ISO` (`number`)
 - `LensModel` (`string`)
 - `Model` (`string`)
