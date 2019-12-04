@@ -27,7 +27,7 @@ const tagsToPick = [
   'LensModel',
   'Model',
   'ShutterSpeedValue',
-];
+]
 
 const resolveExifData = _.memoize((
   image: S3ImageAssetNode // eslint-disable
