@@ -15,7 +15,7 @@
   "devDependencies": {
     "@babel/cli": "7.7.5",
     "@babel/core": "7.7.5",
-    "@babel/plugin-transform-runtime": "7.7.5",
+    "@babel/plugin-transform-runtime": "7.7.6",
     "@babel/preset-typescript": "7.7.4",
     "@semantic-release/git": "7.0.18",
     "@types/invariant": "2.2.30",
