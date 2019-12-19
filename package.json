@@ -13,10 +13,10 @@
     "ts-exif-parser": "0.1.4"
   },
   "devDependencies": {
-    "@babel/cli": "7.7.5",
-    "@babel/core": "7.7.5",
+    "@babel/cli": "7.7.7",
+    "@babel/core": "7.7.7",
     "@babel/plugin-transform-runtime": "7.7.6",
-    "@babel/preset-typescript": "7.7.4",
+    "@babel/preset-typescript": "7.7.7",
     "@semantic-release/git": "7.0.18",
     "@types/invariant": "2.2.30",
     "@types/jest": "24.0.24",
