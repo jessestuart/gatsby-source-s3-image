@@ -9,7 +9,7 @@
     "invariant": "2.2.4",
     "lodash": "4.17.15",
     "luxon": "1.21.3",
-    "mime-types": "2.1.25",
+    "mime-types": "2.1.26",
     "ts-exif-parser": "0.1.5"
   },
   "devDependencies": {
