@@ -60,7 +60,7 @@
     "redux": "4.0.5",
     "redux-mock-store": "1.5.4",
     "semantic-release": "15.14.0",
-    "ts-jest": "24.2.0",
+    "ts-jest": "24.3.0",
     "typescript": "3.7.4"
   },
   "files": [
