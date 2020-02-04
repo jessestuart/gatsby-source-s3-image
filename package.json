@@ -4,7 +4,7 @@
   "version": "1.6.141",
   "author": "Jesse Stuart <hi@jessestuart.com>",
   "dependencies": {
-    "aws-sdk": "2.610.0",
+    "aws-sdk": "2.611.0",
     "fracty": "1.0.9",
     "invariant": "2.2.4",
     "lodash": "4.17.15",
