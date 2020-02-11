@@ -66,7 +66,6 @@ export const getEntityNodeFields = ({
     absolutePath,
     fileNodeId,
     Key: Key!,
-    // @ts-ignore
     mediaType,
     objectHash,
   }
