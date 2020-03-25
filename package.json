@@ -8,7 +8,7 @@
     "fracty": "1.0.9",
     "invariant": "2.2.4",
     "lodash": "4.17.15",
-    "luxon": "1.22.0",
+    "luxon": "1.22.2",
     "mime-types": "2.1.26",
     "ts-exif-parser": "0.1.5"
   },
