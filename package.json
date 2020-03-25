@@ -50,7 +50,7 @@
     "factory.ts": "0.5.1",
     "gatsby": "2.20.6",
     "gatsby-source-filesystem": "2.2.2",
-    "jest": "25.1.0",
+    "jest": "25.2.0",
     "jest-junit": "10.0.0",
     "json-stringify-pretty-compact": "2.0.0",
     "mitm": "1.7.0",
