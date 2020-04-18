@@ -14755,10 +14755,10 @@ trim-off-newlines@^1.0.0:
   resolved "https://registry.yarnpkg.com/true-case-path/-/true-case-path-2.2.1.tgz#c5bf04a5bbec3fd118be4084461b3a27c4d796bf"
   integrity sha512-0z3j8R7MCjy10kc/g+qg7Ln3alJTodw9aDuVWZa3uiWqfuBMKeAeP2ocWcxoyM3D73yz3Jt/Pu4qPr4wHSdB/Q==
 
-ts-exif-parser@0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ts-exif-parser/-/ts-exif-parser-0.1.5.tgz#461d909e194ad7548dd29a853471a6d6d729df32"
-  integrity sha512-3TU0R4K58EUzv+MuCNR/dKpTB6Fu8FWpDoy18OKLikVsqJ2Vaz/vThQ9Ahd1MXvyXcMPjyVpvBslaDMF+Dx+cQ==
+ts-exif-parser@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ts-exif-parser/-/ts-exif-parser-0.1.6.tgz#22725c7354c3d79cf15a0fdb90f2c270d9c17cd4"
+  integrity sha512-2Xg6LHubJP9+yKPF7SQeVLeUlzsnYj7EUIO6+PdSfROiwc9AprXvM4ZaQt0t89XskIlkOWwxfseymihSU8rsLg==
   dependencies:
     sax "1.2.4"
 
