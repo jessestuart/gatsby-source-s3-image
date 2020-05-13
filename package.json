@@ -19,7 +19,7 @@
     "@babel/preset-typescript": "7.9.0",
     "@semantic-release/git": "9.0.0",
     "@types/invariant": "2.2.32",
-    "@types/jest": "25.2.1",
+    "@types/jest": "25.2.2",
     "@types/lodash": "4.14.150",
     "@types/luxon": "1.24.0",
     "@types/mime-types": "2.1.0",
