@@ -103,7 +103,7 @@ export const pageQuery = graphql`
 
 Add the dependency to your `package.json`:
 
-```console
+```shell
 $ yarn add gatsby-source-s3-image
 $ # Or:
 $ npm install --save gatsby-source-s3-image
