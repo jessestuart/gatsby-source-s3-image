@@ -117,7 +117,17 @@ wherever your bucket is hosted:
 const sourceS3 = {
   resolve: 'gatsby-source-s3-image',
   options: {
-    bucketName: 'jesse.pics',
+    awsS3Options: {
+      Bucket: 'jesse.pics', // [required]
+      ContinuationToken: 'STRING_VALUE', // [optional]
+      Delimiter: 'STRING_VALUE', // [optional]
+      EncodingType: 'url', // [optional]
+      FetchOwner: true || false, // [optional]
+      MaxKeys: 'NUMBER_VALUE', // [optional]
+      Prefix: 'STRING_VALUE', // [optional]
+      RequestPayer: 'requester', // [optional]
+      StartAfter: 'STRING_VALUE', // [optional]
+    }
     domain: null, // [optional] Not necessary to define for AWS S3; defaults to `s3.amazonaws.com`
     protocol: 'https', // [optional] Default to `https`.
   },
@@ -130,6 +140,8 @@ const plugins = [
 
 module.exports = { plugins }
 ```
+
+More for awsS3Options on [AWSJavascriptSDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ## Querying
 
