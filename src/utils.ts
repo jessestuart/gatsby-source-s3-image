@@ -74,15 +74,17 @@ export const getEntityNodeFields = ({
 export const constructS3UrlForAsset = ({
   bucketName,
   domain,
-  region,
+  s3,
   key,
   protocol = 'https',
+  expirySeconds = 60 * 5,
 }: {
   bucketName: string
   domain: string
-  region?: string
+  s3?: S3
   key: string
   protocol?: string
+  expirySeconds?: number
 }): string => {
   // Both `key` and either one of `bucketName` or `domain` are required.
   const areParamsValid = key && (bucketName || domain)
@@ -94,10 +96,16 @@ export const constructS3UrlForAsset = ({
   // If it *is*, assume we're pointing to a third-party implementation of the
   // protocol (e.g., Minio, Digital Ocean Spaces, OpenStack Swift, etc).
   const isAWS: boolean = _.includes(domain, 'amazonaws.com')
-  const url = isAWS
-    ? `${protocol}://${bucketName}.s3.${region}.amazonaws.com/${key}`
-    : `${protocol}://${domain}/${bucketName}/${key}`
-  return url
+  if (isAWS) {
+    const url = s3.getSignedUrl('getObject', {
+      Bucket: bucketName,
+      Key: key,
+      Expires: expirySeconds
+    })
+    return url
+  } else {
+    return `${protocol}://${domain}/${bucketName}/${key}`
+  }
 }
 
 export const createS3ImageAssetNode = ({
