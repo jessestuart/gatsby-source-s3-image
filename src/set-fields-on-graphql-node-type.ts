@@ -14,6 +14,21 @@ import fs from 'fs'
 import ExifData from './types/ExifData'
 import S3ImageAssetNode from './types/S3ImageAssetNode'
 
+
+const tagsToPick = [
+  'DateTimeOriginal',
+  'Exposure',
+  'ExposureTime',
+  'FNumber',
+  'FocalLength',
+  'GPSLatitude',
+  'GPSLongitude',
+  'ISO',
+  'LensModel',
+  'Model',
+  'ShutterSpeedValue',
+]
+
 const resolveExifData = _.memoize((
   image: S3ImageAssetNode // eslint-disable
 ): ExifData | undefined => {
@@ -31,17 +46,7 @@ const resolveExifData = _.memoize((
   return {
     DateCreatedISO,
     ShutterSpeedFraction,
-    ..._.pick(tags, [
-      'DateTimeOriginal',
-      'Exposure',
-      'ExposureTime',
-      'FNumber',
-      'FocalLength',
-      'ISO',
-      'LensModel',
-      'Model',
-      'ShutterSpeedValue',
-    ]),
+    ..._.pick(tags, tagsToPick),
   }
 })
 
@@ -71,6 +76,8 @@ export default ({ type }: ExtendNodeTypeOptions) => {
           ExposureTime: { type: GraphQLFloat },
           FNumber: { type: GraphQLFloat },
           FocalLength: { type: GraphQLFloat },
+          GPSLatitude: { type: GraphQLFloat },
+          GPSLongitude: { type: GraphQLFloat },
           ISO: { type: GraphQLInt },
           LensModel: { type: GraphQLString },
           Model: { type: GraphQLString },

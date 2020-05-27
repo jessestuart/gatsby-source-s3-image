@@ -51,6 +51,8 @@ export default interface ExifData {
   Exposure?: string
   FNumber?: number
   FocalLength?: number
+  GPSLatitude?: number
+  GPSLongitude?: number
   ISO?: number
   LensModel?: string
   Model?: string
