@@ -8,6 +8,7 @@ import sourceFilesystem, { FileSystemNode } from 'gatsby-source-filesystem'
 
 import { sourceNodes } from '../source-nodes'
 import fixtures from './fixtures.json'
+import fixtures_paging from './fixtures-paging.json'
 
 const FileSystemNodeMock = Factory.Sync.makeFactory<FileSystemNode>({})
 
@@ -73,6 +74,24 @@ describe('Source S3ImageAsset nodes.', () => {
     expect(_.flow(fp.map('internal.type'), fp.uniq)(nodes)).toStrictEqual([
       'S3ImageAsset',
     ])
+  })
+
+  test('Verify sourceNodes creates the correct # of nodes, given paging is required.', async () => {
+    ListObjectsMock.mockReturnValueOnce({
+      promise: () => fixtures_paging,
+    }).mockReturnValueOnce({
+      promise: () => fixtures,
+    })
+
+    // NB: pulls from fixtures defined above, not S3 API.
+    const entityNodes = await sourceNodes(sourceNodeArgs, {
+      accessKeyId: 'fake-access-key',
+      bucketName: 'fake-bucket',
+      secretAccessKey: 'secret-access-key',
+    })
+    expect(sourceFilesystem.createRemoteFileNode).toHaveBeenCalledTimes(15)
+    // 10 images + 2 directories + 5 images
+    expect(entityNodes).toHaveLength(17)
   })
 
   test('Verify sourceNodes creates the correct # of nodes, given no fixtures.', async () => {

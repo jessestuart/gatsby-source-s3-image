@@ -1,0 +1,80 @@
+{
+  "IsTruncated": true,
+  "Contents": [
+    {
+      "Key": "2019-04-10/DSC0.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC1.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"356a192b7913b04c54574d18c28d46e6395428ab\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC2.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"da4b9237bacccdf19c0760cab7aec4a8359010b0\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC3.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"77de68daecd823babbb58edb1c8e14d7106e83bb\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC4.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"1b6453892473a467d07372d45eb05abc2031647a\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC5.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC6.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"c1dfd96eea8cc2b62785275bca38ac261256e278\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC7.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"902ba3cda1883801594b6e1b452790cc53948fda\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC8.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "2019-04-10/DSC9.jpg",
+      "LastModified": "2019-04-11T02:45:39.000Z",
+      "ETag": "\"0ade7c2cf97f75d009975f4d720d1fa6c19f4897\"",
+      "Size": 0,
+      "StorageClass": "STANDARD"
+    }
+  ],
+  "Name": "js-photos-dev",
+  "Prefix": "",
+  "MaxKeys": 10,
+  "CommonPrefixes": [],
+  "KeyCount": 10
+}
