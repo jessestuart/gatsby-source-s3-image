@@ -61,7 +61,7 @@
     "redux-mock-store": "1.5.4",
     "semantic-release": "17.0.8",
     "ts-jest": "25.5.1",
-    "typescript": "3.9.3"
+    "typescript": "3.9.9"
   },
   "files": [
     "*.js",
