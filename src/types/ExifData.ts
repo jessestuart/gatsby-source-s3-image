@@ -45,7 +45,9 @@
  * ```
  */
 export default interface ExifData {
+  DateCreated?: Date
   DateCreatedISO?: string
+  DateTime?: Date
   DateTimeOriginal?: number
   ExposureTime?: number
   Exposure?: string

@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { ExifParserFactory } from 'ts-exif-parser'
 import _ from 'lodash'
 import fracty from 'fracty'
@@ -17,13 +16,16 @@ const resolveExifData = _.memoize((
   if (!timestamp) {
     return
   }
-  const DateCreatedISO = DateTime.fromMillis(timestamp * 1000).toISODate()
-
   const ExposureTime = _.get(tags, 'ExposureTime')
   const ShutterSpeedFraction = fracty(ExposureTime)
 
+  const DateCreated = new Date(timestamp * 1000)
+  DateCreated.setHours(0, 0, 0, 0)
+  
   return {
-    DateCreatedISO,
+    DateCreated: DateCreated,
+    DateCreatedISO: DateCreated.toISOString().split('T')[0],
+    DateTime: new Date(timestamp * 1000),
     ShutterSpeedFraction,
     ..._.pick(tags, [
       'DateTimeOriginal',

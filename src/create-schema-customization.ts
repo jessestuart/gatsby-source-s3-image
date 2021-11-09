@@ -18,7 +18,9 @@ export default ({ actions }) => {
     }
 
     type ExifData {
+      DateCreated: Date
       DateCreatedISO: String
+      DateTime: Date
       DateTimeOriginal: Int
       ExposureTime: Int
       FNumber: Int
