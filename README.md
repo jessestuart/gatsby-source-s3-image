@@ -140,9 +140,10 @@ As mentioned above, `gatsby-source-s3-image` exposes nodes of type
 interface S3ImageAssetNode {
   id: string
   absolutePath: string
+  LastModified: Date
   ETag: string
   Key: string
-  EXIF: ExifData | undefined // ExifData is defined below -->
+  EXIF?: ExifData
   internal: {
     content: string
     contentDigest: string
@@ -152,15 +153,20 @@ interface S3ImageAssetNode {
 }
 
 interface ExifData {
-  DateCreatedISO: string
-  DateTimeOriginal: number
-  ExposureTime: number
-  FNumber: number
-  FocalLength: number
-  ISO: number
-  LensModel: string
-  Model: string
-  ShutterSpeedValue: number
+  DateCreated?: Date
+  DateCreatedISO?: string
+  DateTime?: Date
+  DateTimeOriginal?: number
+  ExposureTime?: number
+  Exposure?: string
+  FNumber?: number
+  FocalLength?: number
+  ISO?: number
+  LensModel?: string
+  Model?: string
+  ShutterSpeedFraction?: string
+  ShutterSpeedValue?: string
+  UserComment?: string
 }
 ```
 

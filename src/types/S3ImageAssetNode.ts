@@ -12,7 +12,7 @@ export default interface S3ImageAssetNode {
   LastModified: Date
   ETag: string
   Key: string
-  EXIF: ExifData | null
+  EXIF?: ExifData
   internal: {
     content: string
     contentDigest: string
