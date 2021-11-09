@@ -22,13 +22,13 @@ export default ({ actions }) => {
       DateCreatedISO: String
       DateTime: Date
       DateTimeOriginal: Int
-      ExposureTime: Int
-      FNumber: Int
-      FocalLength: Int
+      ExposureTime: Float
+      FNumber: Float
+      FocalLength: Float
       ISO: Int
       LensModel: String
       Model: String
-      ShutterSpeedValue: Int
+      ShutterSpeedValue: Float
     }
 `
   createTypes(typeDefs)
