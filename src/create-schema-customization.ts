@@ -29,6 +29,7 @@ export default ({ actions }) => {
       LensModel: String
       Model: String
       ShutterSpeedValue: Float
+      UserComment: String
     }
 `
   createTypes(typeDefs)

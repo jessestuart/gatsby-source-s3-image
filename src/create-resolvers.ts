@@ -37,6 +37,7 @@ const resolveExifData = _.memoize((
       'LensModel',
       'Model',
       'ShutterSpeedValue',
+      'UserComment',
     ]),
   }
 })

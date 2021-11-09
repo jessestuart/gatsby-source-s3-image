@@ -58,4 +58,5 @@ export default interface ExifData {
   Model?: string
   ShutterSpeedFraction?: string
   ShutterSpeedValue?: string
+  UserComment?: string
 }
