@@ -7,7 +7,7 @@ export default ({ actions }) => {
       ETag: String!
       Key: String!
       EXIF: ExifData
-      internal: S3ImageAssetNodeInternal!
+      internal: S3ImageAssetInternal!
     }
 
     type S3ImageAssetInternal {
