@@ -45,7 +45,9 @@
  * ```
  */
 export default interface ExifData {
+  DateCreated?: Date
   DateCreatedISO?: string
+  DateTime?: Date
   DateTimeOriginal?: number
   ExposureTime?: number
   Exposure?: string
@@ -56,4 +58,5 @@ export default interface ExifData {
   Model?: string
   ShutterSpeedFraction?: string
   ShutterSpeedValue?: string
+  UserComment?: string
 }
