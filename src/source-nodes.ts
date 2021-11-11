@@ -45,10 +45,7 @@ export const sourceNodes = async (
   const { createNode, touchNode } = actions
   const cachedNodes: S3ImageAssetNode[] = _.filter(
     getNodes(),
-    _.flow(
-      fp.get('internal.owner'),
-      fp.eq('gatsby-source-s3-image')
-    )
+    _.flow(fp.get('internal.owner'), fp.eq('gatsby-source-s3-image'))
   )
 
   const nodesByKey = _.groupBy(cachedNodes, 'Key')
@@ -58,13 +55,12 @@ export const sourceNodes = async (
   // prettier-ignore
   const listObjectsResponse: S3.ListObjectsV2Output =
     await s3.listObjectsV2({ Bucket: bucketName }).promise()
-
   const s3Entities: S3.ObjectList = _.get(listObjectsResponse, 'Contents', [])
   if (_.isEmpty(s3Entities)) {
     return []
   }
 
-  const cachedEntities = _.filter(s3Entities, entity => {
+  const cachedEntities = _.filter(s3Entities, (entity) => {
     const cachedEntity = _.first(nodesByKey[entity.Key as string])
     if (cachedEntity && entity.LastModified) {
       const cacheIsValid =
@@ -74,9 +70,9 @@ export const sourceNodes = async (
     return false
   })
 
-  cachedEntities.forEach(entity => {
+  cachedEntities.forEach((entity) => {
     const cachedEntity = _.first(nodesByKey[entity.Key as string])
-    touchNode({ nodeId: _.get(cachedEntity, 'id') })
+    touchNode(cachedEntity)
   })
 
   return Promise.all(
